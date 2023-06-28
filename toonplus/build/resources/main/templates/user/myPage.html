@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+	table, td{
+		border: 1px solid; border-collapse: collapse;
+	}
+	tr, td{
+		vertical-align : top;
+	}
+	table{
+		width: 100%;
+	}
+	.toon{
+		height: 200px;
+	}
+	.coment{
+		height: 150px;
+	}
+	.write{
+		height: 100px;
+
+	}
+	
+</style>
+</head>
+<body>
+<form action="signup.jsp" method="post">
+<div style="text-align : center;">
+<img src="/resources/images/logo.jpg" width="300px", height="80px" >
+<select style="float : right;">
+		<option value="">메뉴</option>
+		<option value="">마이페이지</option>
+		<option value="">개인정보 수정</option>
+		<option value="">로그아웃</option>
+</select>
+</div>
+<table>
+<tr>
+<td>닉네임</td>
+</tr>
+<tr>
+<td class="you">소개글</td>
+</tr>
+<tr>
+<td class="write"><input type="text" style="width:99%; height: 75px;">
+<input type="submit" value="저장" style="float:right;"></td>
+</tr>
+<tr>
+<td class="toon">좋아요 표시한 웹툰</td>
+</tr>
+<tr>
+<td class="coment">내가 남긴 의견</td>
+</tr>
+<tr>
+    <td>마이페이지 공개여부&nbsp;
+	<input type="radio" name="ok" value="ok">공개
+           <input type="radio" name="no" value="no">비공개
+	</td>
+</tr>
+<tr>
+<td><input type="submit" value="설정">
+<input type="submit" value="화면 상단으로 이동하기"></td>
+</tr>
+</table>
+</form>
+</body>
+</html>

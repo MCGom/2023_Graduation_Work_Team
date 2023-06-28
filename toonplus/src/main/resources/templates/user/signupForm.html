@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <meta charset="UTF-8">
+    <script>
+        function checkId() {
+            var IdValue = $('#USER_ID').val();
+
+            if (!isValidId(IdValue)) {
+                alert('올바른 아이디 형식이 아닙니다.');
+                return;
+            }
+
+            if (IdValue.length < 2 || IdValue.length > 20) {
+                alert('아이디는 2 ~ 20자 사이만 가능합니다.');
+                return;
+            }
+
+            $.ajax({
+                type : 'POST',
+                url :  '/user/checkId',
+                data : { USER_ID : $('#USER_ID').val()},
+                dataType : "text",
+                async : false,
+                success : function(data) {
+                    if (data == 'true') {
+                        alert('사용 가능한 아이디입니다.');
+                        $("#checkIdVal").val("Y");
+                        $('#USER_ID').attr("disabled",true);
+                    } else {
+                        alert('이미 사용하고 있는 아이디입니다.');
+                        $("#checkIdVal").val("N");
+                    }
+                }, error : function (){
+                    alert("에러가 발생하였습니다.");
+                }
+            });
+        }
+
+        function checkEmail() {
+            var emailValue = $('#USER_MAIL').val();
+
+            if (!isValidEmail(emailValue)) {
+                alert('올바른 이메일 형식이 아닙니다.');
+                return;
+            }
+
+            $.ajax({
+                type : 'POST',
+                url :  '/user/checkEmail',
+                data : { USER_MAIL : $('#USER_MAIL').val()},
+                dataType : "text",
+                async : false,
+                success : function(data) {
+                    if (data == 'true') {
+                    	alert('사용 가능한 이메일입니다. 이메일 인증번호가 전송되었습니다.'); 
+                    	$("#areaAuth").css("display","table-row");
+        				$.ajax({  //이메일 중복여부 검사
+        					type : 'POST',
+        					url :  '/user/sendEmail',
+        					data : { USER_MAIL : $('#USER_MAIL').val()},
+        					dataType : "text",
+        					async : false,
+        					success : function(data) {
+        						if (data.length < 1) {
+        							alert("메일 전송에 실패했습니다.");
+        						} else {
+        							$("#authNum").val(data);
+        						}
+        						
+        					}, error : function (){
+        						alert("에러가 발생하였습니다.");
+        					}
+        				});
+                        $("#checkEmailVal").val("Y");
+                        $('#USER_MAIL').attr("disabled",true);
+                    } else {
+                        alert('이미 사용하고 있는 이메일입니다.');
+                        $("#checkEmailVal").val("N");
+                    }
+                }, error : function (){
+                    alert("에러가 발생하였습니다.");
+                }
+            });
+        }
+
+        function checkNickName() {
+            var NickNameValue = $('#USER_NICKNAME').val();
+
+            if (!isValidNickname(NickNameValue)) {
+                alert('올바른 닉네임 형식이 아닙니다.');
+                return;
+            }
+
+            $.ajax({
+                type : 'POST',
+                url :  '/user/checkNickName',
+                data : { NICKNAME : $('#USER_NICKNAME').val()},
+                dataType : "text",
+                async : false,
+                success : function(data) {
+                    if (data == 'true') {
+                        alert('사용 가능한 닉네임입니다.');
+                        $("#checkNickNameVal").val("Y");
+                        $('#USER_NICKNAME').attr("disabled",true);
+                    } else {
+                        alert('이미 사용하고 있는 닉네임입니다.');
+                        $("#checkNickNameVal").val("N");
+                    }
+                }, error : function (){
+                    alert("에러가 발생하였습니다.");
+                }
+            });
+        }
+        
+        function checkAuth(){
+        	if ($("#authNum").val() != $("#EMAIL_AUTH").val()) {
+        		alert('인증에 실패했습니다.');
+        		$("#EMAIL_AUTH").attr("disabled",false);
+        	} else {
+        		alert('인증에 성공했습니다.');
+        		$("#EMAIL_AUTH").attr("disabled",true);
+        		$("#checkEmailAuthVal").val("Y");
+        	}
+        }
+        function checkAction(){
+            var frmSubmit = document.frmSubmit;
+            var PasswordValue = $('#USER_PASSWORD').val();
+            var NameValue = $('#USER_NAME').val();
+                var NickNameValue = $('#USER_NICKNAME').val();
+                var EmailValue = $('#USER_MAIL').val();
+                var IdValue = $('#USER_ID').val();
+                var GenderValue = $('#USER_GENDER').val();
+                var GenreValue1 = $('#USER_PICK1').val();
+                var GenreValue2 = $('#USER_PICK2').val();
+                var GenreValue3 = $('#USER_PICK3').val();
+                var MypageValue = $('input[name="USER_MYPAGE"]:checked').val();
+
+                if (IdValue.trim() === '') {
+                alert('ID를 입력해주세요.'); // ID가 입력되지 않은 경우 메시지 출력
+                return;
+            }
+
+                if ($("#checkIdVal").val() === 'N') {
+                alert('아이디 중복 확인이 필요합니다.'); // ID 중복 확인이 눌리지 않은 경우 메시지 출력
+                return;
+            }
+
+                if (EmailValue.trim() === '') {
+                alert('이메일 주소를 입력해주세요.'); // 이메일이 입력되지 않은 경우 메시지 출력
+                return;
+            }
+
+                if ($("#checkEmailVal").val() === 'N') {
+                alert('이메일 중복 확인이 필요합니다.'); // 이메일 중복 확인이 눌리지 않은 경우 메시지 출력
+                return;
+            }
+                if ($("#checkEmailAuthVal").val() === 'N') {
+                alert('이메일 인증 확인이 필요합니다.'); // 이메일 인증 확인이 눌리지 않은 경우 메시지 출력
+                return;
+            }
+
+                if (PasswordValue.trim() === '') {
+                alert('비밀번호를 입력해주세요.'); // 비밀번호가 입력되지 않은 경우 메시지 출력
+                return;
+            }
+
+                if ($("#USER_PASSWORD").val() !== $("#USER_PASSWORD2").val()) {
+                alert('비밀번호가 일치하지 않습니다.'); // 비밀번호1과 비밀번호2가 일치하지 않는 경우 메시지 출력
+                return;
+            }
+
+                if (NickNameValue.trim() === '') {
+                alert('닉네임을 입력해주세요.'); // 닉네임이 입력되지 않은 경우 메시지 출력
+                return;
+            }
+
+                if ($("#checkNickNameVal").val() === 'N') {
+                alert('닉네임 중복 확인이 필요합니다.'); // 닉네임 중복 확인이 눌리지 않은 경우 메시지 출력
+                return;
+            }
+
+                if (NameValue.trim() === '') {
+                alert('이름을 입력해주세요.'); // 이름이 입력되지 않은 경우 메시지 출력
+                return;
+            }
+
+                if (GenderValue === '') {
+                alert('성별을 선택해주세요.'); // 성별이 선택되지 않은 경우 메시지 출력
+                return;
+            }
+
+                if (GenreValue1 === 'Not selected' || GenreValue2 === 'Not selected' || GenreValue3 === 'Not selected') {
+                alert('3가지 선호 장르를 모두 선택해주세요.'); // 3가지 장르가 모두 선택되지 않은 경우 메시지 출력
+                return;
+            }
+
+                if (!MypageValue) {
+                alert('마이 페이지 공개 여부를 선택해주세요.'); // 마이 페이지 공개 여부가 선택되지 않은 경우 메시지 출력
+                return;
+            }
+
+                $('#USER_ID').attr("disabled", false); // ID, 이메일, 닉네임이 중복되면 수정할 수 없음
+                $('#USER_MAIL').attr("disabled", false);
+                $('#USER_NICKNAME').attr("disabled", false);
+
+                frmSubmit.submit();
+                return false;
+                }
+
+                function isValidId(id) { // ID 유효성 검사 함수
+                var idRegex = /^[a-zA-z0-9a-hehga-heh]+$/;
+                return idRegex.test(id);
+            }
+
+                function isValidEmail(email) { // 이메일 유효성 검사 함수
+                var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                return emailRegex.test(email);
+            }
+
+                function isValidNickname(nickname) { // 닉네임 유효성 검사 함수
+                var NicknameRegex = /^[a-zA-z0-9a-hehga-huh]+$/;
+                return NicknameRegex.test(nickname);
+            }
+
+    </script>
+</head>
+<body>
+<form action="signup" method="post" name="frmSubmit">
+    <input type="hidden" id="checkIdVal" value="N"/>
+    <input type="hidden" id="checkEmailVal" value="N"/>
+    <input type="hidden" id="checkEmailAuthVal" value="N"/>
+    <input type="hidden" id="checkNickNameVal" value="N"/>
+    <input type="hidden" id="authNum" value="N">
+    <div style="text-align: center;">
+        <img src="/resources/images/logo.jpg" width="300px" height="80px" >
+    </div>
+    <table align=center>
+        <tr><td colspan=2 align=center height=40><b>회원 가입</b></td></tr>
+        <tr>
+            <td align=right>ID</td>
+            <td><input type="text" name="USER_ID" id="USER_ID">
+                <input type="button" value="중복 확인" onclick="javascript:checkId();">
+            </td>
+        </tr>
+        <tr>
+            <td align=right>이메일</td>
+            <td><input type="email" name="USER_MAIL" id="USER_MAIL">
+                <input type="button" value="중복 확인" onclick="javascript:checkEmail();"></td>
+        </tr>
+        <tr id="areaAuth" style="display: none;">
+            <td align=right></td>
+            <td><input type="text" name="EMAIL_AUTH" id="EMAIL_AUTH">
+            
+                <input type="button" value="인증 확인" onclick="javascript:checkAuth();"></td>
+        </tr>
+        <tr>
+            <td align=right>비밀번호</td>
+            <td><input type="password" name="USER_PASSWORD" id="USER_PASSWORD"></td>
+        </tr>
+        <tr>
+            <td align=right>비밀번호 (확인)</td>
+            <td><input type="password" name="USER_PASSWORD2" id="USER_PASSWORD2"></td>
+        </tr>
+        <tr>
+            <td align=right>닉네임</td>
+            <td><input type="text" name="USER_NICKNAME" id="USER_NICKNAME">
+                <input type="button" value="중복 확인" onclick="javascript:checkNickName();">
+            </td>
+        </tr>
+        <tr>
+        <tr>
+            <td align=right>이름</td>
+            <td><input type="text" name="USER_NAME" id="USER_NAME" required>
+            </td>
+        </tr>
+        <tr>
+            <td align=right>성별</td>
+            <td><select name="USER_GENDER" id="USER_GENDER" required>
+                <option value="">성별 선택</option>
+                <option value="M">남성</option>
+                <option value="F">여성</option>
+            </select>
+            </td>
+        </tr>
+        <tr>
+            <td align=right>선호 장르</td>
+            <td><select name="USER_PICK1" id="USER_PICK1" required>
+                <option value="Not selected">선택 안 함</option>
+                <option value="로맨스">로맨스</option>
+                <option value="판타지">판타지</option>
+                <option value="액션">액션</option>
+                <option value="일상">일상</option>
+                <option value="스릴러">스릴러</option>
+            </select>
+                <select name="USER_PICK2" id="USER_PICK2">
+                    <option value="Not selected">선택 안 함</option>
+                    <option value="로맨스">로맨스</option>
+                    <option value="판타지">판타지</option>
+                    <option value="액션">액션</option>
+                    <option value="일상">일상</option>
+                    <option value="스릴러">스릴러</option>
+                </select>
+                <select name="USER_PICK3" id="USER_PICK3">
+                    <option value="Not selected">선택 안 함</option>
+                    <option value="로맨스">로맨스</option>
+                    <option value="판타지">판타지</option>
+                    <option value="액션">액션</option>
+                    <option value="일상">일상</option>
+                    <option value="스릴러">스릴러</option>
+                </select>
+
+        </tr>
+        <tr>
+            <td align=right>마이 페이지 공개 여부</td>
+            <td><img src="/resources/images/qm.jpg" width="5px", height="5px" title="공개">
+                <input type="radio" name="USER_MYPAGE" value="Y">공개
+                <input type="radio" name="USER_MYPAGE" value="N">비공개
+        </tr>
+        <tr>
+            <td colspan=2 align=center height=50>
+                <input type="button" value="가입" onclick="javascript:checkAction();">
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
