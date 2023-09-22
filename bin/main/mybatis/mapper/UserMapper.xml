@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.toonplus.user.dao.UserMapper">
+
+  <select id="checkId" resultType="int" parameterType="com.toonplus.user.dto.User">
+  	SELECT COUNT(*) 
+  	FROM user 
+  	WHERE USER_ID = #{USER_ID};
+  </select>
+  
+  <select id="checkEmail" resultType="int" parameterType="com.toonplus.user.dto.User">
+  	SELECT COUNT(*) 
+  	FROM user 
+  	WHERE USER_MAIL = #{USER_MAIL}
+  	<if test="USER_ID    != null and USER_ID !='' ">
+  	AND USER_ID != #{USER_ID}
+  	</if>;
+  </select>
+  
+  <select id="checkNickName" resultType="int" parameterType="com.toonplus.user.dto.User">
+  	SELECT COUNT(*) 
+  	FROM user 
+  	WHERE USER_NICKNAME = #{USER_NICKNAME}
+  	<if test="USER_ID    != null and USER_ID !='' ">
+  	AND USER_ID != #{USER_ID}
+  	</if>;
+  </select>
+  
+  <insert id="insertUser" parameterType="com.toonplus.user.dto.User">
+  	INSERT INTO USER(USER_ID,USER_MAIL,USER_PASSWORD,USER_NAME,USER_GENDER,USER_NICKNAME,USER_PICK1,USER_PICK2,USER_PICK3,USER_MYPAGE)
+  	VALUE (#{USER_ID},#{USER_MAIL},#{USER_PASSWORD},#{USER_NAME},#{USER_GENDER},#{USER_NICKNAME},#{USER_PICK1},#{USER_PICK2},#{USER_PICK3},#{USER_MYPAGE})
+  </insert>
+  
+  <select id="login" parameterType="com.toonplus.user.dto.User" resultType="com.toonplus.user.dto.User">
+  	SELECT *  
+  	FROM user 
+  	WHERE USER_ID = #{USER_ID}
+  	AND USER_PASSWORD = #{USER_PASSWORD};
+  </select>
+  
+  <update id="updateUser" parameterType="com.toonplus.user.dto.User">
+  	UPDATE user 
+  	SET USER_MAIL = #{USER_MAIL},
+  		USER_PASSWORD = #{USER_PASSWORD},
+  		USER_NAME = #{USER_NAME},
+  		USER_NICKNAME = #{USER_NICKNAME},
+  		USER_PICK1 = #{USER_PICK1},
+  		USER_PICK2 = #{USER_PICK2},
+  		USER_PICK3 = #{USER_PICK3},
+  		USER_MYPAGE = #{USER_MYPAGE}
+  	WHERE USER_ID = #{USER_ID}
+  </update>
+  
+</mapper>
