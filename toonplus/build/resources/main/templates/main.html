@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+        .goupbtn {
+            top: 92%;
+            left: 96%;
+            width: 50px;
+            height: 50px;
+            border-radius: 80%;
+            background-color: #ffffff;
+            border: red 3px solid;
+            position: fixed;
+            z-index: 2;
+        }	
+	</style>
+</head>
+<body>
+	<form method="post">
+		<input class="goupbtn" type="button" value="Top" onclick="clickme()"></div>
+		<script>
+			function clickme() {
+				window.scrollTo(0, 0);
+			}
+		</script>
+		<div style="text-align : center;">
+			<img src="/resources/images/logo.jpg" width="300px" , height="80px">
+			<select style="float : right;" onchange="if(this.value) location.href=(this.value);">
+				<option value="">메뉴</option>
+				<option value="user/mypage">마이페이지</option>
+				<option value="user/update">개인정보 수정</option>
+				<option value="home">로그아웃</option>
+			</select>
+		</div>
+		<div>
+			<a>회원정보 기반 추천</a>
+		</div>
+
+		<div style="white-space: nowrap; width: 100%; overflow-x: auto;">
+			<div th:each="toon : ${toons}" style="display: inline-block;">
+				<img th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='goToLink(\'' + ${toon.TOON_LINK} + '\');'" width="150px" height="200px">
+			</div>
+		</div>
+		<div>
+			<div>
+				<a>new</a>
+			</div>
+
+			<div style="float:left; padding-right:50px;">
+				<div>
+					<a>네이버</a>
+				</div>
+				<div>
+					<img src="10.jpg" width="150px" , height="200px">
+					<img src="11.jpg" width="150px" , height="200px">
+					<img src="12.jpg" width="150px" , height="200px">
+				</div>
+			</div>
+			<div style="float: left; padding-right: 50px;">
+				<div>
+					<a>레진</a>
+				</div>
+				<div>
+					<img src="13.jpg" width="150px" , height="200px">
+					<img src="14.jpg" width="150px" , height="200px">
+					<img src="15.jpg" width="150px" , height="200px">
+				</div>
+			</div>
+			<div style="float: left;">
+				<div>
+					<a>카카오</a>
+				</div>
+				<div>
+					<img src="16.jpg" width="150px" , height="200px">
+					<img src="17.jpg" width="150px" , height="200px">
+					<img src="18.jpg" width="150px" , height="200px">
+				</div>
+			</div>
+		</div>
+		<div>
+			<div>
+				<a>hot</a>
+			</div>
+
+			<div style="float:left; padding-right:50px;">
+				<div>
+					<a>네이버</a>
+				</div>
+				<div>
+					<img src="19.jpg" width="150px" , height="200px">
+					<img src="20.jpg" width="150px" , height="200px">
+					<img src="21.jpg" width="150px" , height="200px">
+				</div>
+			</div>
+			<div style="float: left; padding-right: 50px;">
+				<div>
+					<a>레진</a>
+				</div>
+				<div>
+					<img src="22.jpg" width="150px" , height="200px">
+					<img src="23.jpg" width="150px" , height="200px">
+					<img src="24.jpg" width="150px" , height="200px">
+				</div>
+			</div>
+			<div style="float: left;">
+				<div>
+					<a>카카오</a>
+				</div>
+				<div>
+					<img src="25.jpg" width="150px" , height="200px">
+					<img src="26.jpg" width="150px" , height="200px">
+					<img src="27.jpg" width="150px" , height="200px">
+				</div>
+			</div>
+		</div>
+		<table>
+			<tr>
+				<td>
+					<a>웹툰</a>
+					<button type="button" role="tab" >로맨스</button>
+					<button type="button" role="tab" >일상</button>
+					<button type="button" role="tab" >판타지</button>
+					<button type="button" role="tab" >드라마</button>
+					<button type="button" role="tab" >개그</button>
+					<button type="button" role="tab" >액션</button>
+					<button type="button" role="tab" >사극</button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img src="28.jpg" width="150px" , height="200px">
+					<img src="29.jpg" width="150px" , height="200px">
+					<img src="30.jpg" width="150px" , height="200px">
+					<img src="31.jpg" width="150px" , height="200px">
+					<img src="32.jpg" width="150px" , height="200px">
+					<img src="33.jpg" width="150px" , height="200px">
+					<img src="34.jpg" width="150px" , height="200px">
+					<img src="35.jpg" width="150px" , height="200px">
+					<img src="36.jpg" width="150px" , height="200px">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<button style="float:right;"type="button" role="tab" onclick = "location.href ='/genre'">장르별 웹툰 보러가기</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<script>
+		function goToLink(link) {
+			window.location.href = link;
+		}
+	</script>
+</body>
+</html>

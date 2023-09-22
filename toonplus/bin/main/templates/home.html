@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <meta charset="UTF-8">
+</head>
+<body>
+<form action="signup.jsp" method="post">
+  <div style="text-align : center; height:300px; line-height:500px;">
+    <img src="/resources/images/logo.jpg" width="400px" height="150px" >
+  </div>
+  <div style="text-align: center;">
+    <!-- 회원이라면 -->
+    로그인된 사용자: ${user.USER_ID } <br/> <!-- 로그인된 사용자의 ID 표시 -->
+    <!-- 비회원인 경우 -->
+    <input type="button" value="회원 가입" onclick="location.href='user/signup'"> <!-- 회원 가입 버튼 클릭 시 회원 가입 페이지로 이동 -->
+
+    <!-- 회원이라면 -->
+    <input type="button" value="회원 정보 수정" onclick="location.href='user/update'"> <!-- 회원 정보 수정 버튼 클릭 시 회원 정보 수정 페이지로 이동 -->
+
+    <!-- 비회원인 경우 -->
+    <input type="button" value="로그인" onclick="location.href='user/login'"> <!-- 로그인 버튼 클릭 시 로그인 페이지로 이동 -->
+
+  </div>
+</form>
+</body>
+</html>

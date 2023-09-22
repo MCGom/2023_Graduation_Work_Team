@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.toonplus.toon.dao.ToonMapper">
+
+
+	<select id="selectToon" resultType="com.toonplus.toon.dto.Toon">
+		SELECT TOON_LINK, TOON_IMAGELINK FROM toon_table
+	</select>
+
+	<select id="selectKeywordToon" parameterType="string" resultType="com.toonplus.toon.dto.Toon">
+		SELECT TOON_LINK, TOON_IMAGELINK
+		FROM toon_table
+		WHERE N_toon LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+
+</mapper>
