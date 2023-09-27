@@ -2,43 +2,44 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="signup.css">
 </head>
 <body>
 <form action="update.jsp" method="post">
 	<div style="text-align : center;">
 	<img src="./logo.jpg" width="300px", height="80px" >
 	</div>
-<table align=center>
+<table align="center">
 <tr><td colspan=2 align=center height=40><b>회원정보 수정</b><td></tr>
 <tr>
-    <td align=right>아이디&nbsp;</td>
-    <td><input type="text" name="id" value="고정"></td>
+    <td class="bdView1">아이디&nbsp;</td>
+    <td class="bdView2"><input type="text" name="id" value="고정"></td>
 </tr>
 <tr>
-    <td align=right>이메일&nbsp;</td>
-    <td><input type="e-mail" name="mail">
+    <td class="bdView1">이메일&nbsp;</td>
+    <td class="bdView2"><input type="e-mail" name="mail">
        <input type="submit" value="중복확인"></td>
 </tr>
 <tr>
-    <td align=right>패스워드&nbsp;</td>
-    <td><input type="password" name="ps" value=""></td>
+    <td class="bdView1">패스워드&nbsp;</td>
+    <td class="bdView2"><input type="password" name="ps" value=""></td>
 </tr>
 <tr> 
-    <td align=right>패스워드(확인)&nbsp;</td>
-    <td><input type="password" name="ps2" value=""></td>
+    <td class="bdView1">패스워드(확인)&nbsp;</td>
+    <td class="bdView2"><input type="password" name="ps2" value=""></td>
 </tr>
 <tr> 
-    <td align=right>이름&nbsp;</td>
-    <td><input type="text" name="name" value=""></td>
+    <td class="bdView1">이름&nbsp;</td>
+    <td class="bdView2"><input type="text" name="name" value=""></td>
 </tr>
 <tr>
-    <td align=right>닉네임&nbsp;</td>
-    <td><input type="text" name="nickname">
+    <td class="bdView1">닉네임&nbsp;</td>
+    <td class="bdView2"><input type="text" name="nickname">
        <input type="submit" value="중복확인">
     </td></tr>
 <tr>
-    <td align=right>선호장르&nbsp;</td>
-    <td><select>
+    <td class="bdView1">선호장르&nbsp;</td>
+    <td class="bdView2"><select>
 		<option value="">로맨스</option>
 		<option value="">판타지</option>
 		<option value="">액션</option>
@@ -61,8 +62,8 @@
           </select>
 </tr>
 <tr>
-    <td align=right>마이페이지 공개여부&nbsp;</td>
-    <td><input type="radio" name="ok" value="ok">공개
+    <td class="bdView1">마이페이지 공개여부&nbsp;</td>
+    <td class="bdView2"><input type="radio" name="ok" value="ok">공개
            <input type="radio" name="no" value="no">비공개
 </tr>
 <tr>
