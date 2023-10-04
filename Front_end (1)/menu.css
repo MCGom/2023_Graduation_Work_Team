@@ -1,0 +1,82 @@
+﻿#out {
+    list-style: none;
+    float: right;
+    margin: 0px;
+    padding: 5px 1px;
+    color:black;
+    background-color: #F7691C;
+   
+    
+}
+
+    #out a {
+        text-decoration: none;
+        color: black;
+    }
+
+    #out a:visited {
+        color:black;
+    }
+
+    #out li {
+        float: right;
+        position: relative;
+        margin: 5px 1px;
+        padding: 0;
+    }
+
+        #out li a {
+            display: block;
+            font-family: "굴림";
+            font-weight: bold;
+            padding: 5px 1px;
+            margin: 0;
+            text-decoration: none;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+        }
+
+        #out li:hover > a {
+            background: #ffcab2;
+            color: black;
+            margin: 0;
+            padding: 5px 1px;
+        }
+
+    #out ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        left: 0px;
+        top: 38px;
+        width: 70px;
+        background: #ffcab2;
+        text-align: center;
+        opacity: 0;
+    }
+
+        #out ul li {
+            float: none;
+            margin: 0px;
+            padding: 0;
+            font-size: 14px;
+        }
+
+        #out ul a {
+            font-weight: normal;
+            color: black;
+        }
+
+        #out ul li:hover a {
+            background: #cc9882;
+            font-weight: bold;
+        }
+
+    #out li:hover ul {
+        opacity: 1;
+    }
+
+        #out li:hover ul li {
+            overflow: visible;
+            padding: 0;
+        }
