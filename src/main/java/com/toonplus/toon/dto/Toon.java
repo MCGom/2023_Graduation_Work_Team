@@ -13,5 +13,6 @@ import lombok.Setter;
 public class Toon {
 	private String TOON_IMAGELINK;
 	private String TOON_LINK;
+	private String TOON_PLATFORM;
 }
 

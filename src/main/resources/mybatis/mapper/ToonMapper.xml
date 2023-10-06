@@ -5,11 +5,11 @@
 
 
 	<select id="selectToon" resultType="com.toonplus.toon.dto.Toon">
-		SELECT TOON_LINK, TOON_IMAGELINK FROM toon_table
+		SELECT TOON_LINK, TOON_IMAGELINK, TOON_PLATFORM FROM toon_table
 	</select>
 
 	<select id="selectKeywordToon" parameterType="string" resultType="com.toonplus.toon.dto.Toon">
-		SELECT TOON_LINK, TOON_IMAGELINK
+		SELECT TOON_LINK, TOON_IMAGELINK ,TOON_PLATFORM
 		FROM toon_table
 		WHERE N_toon LIKE CONCAT('%', #{keyword}, '%')
 	</select>

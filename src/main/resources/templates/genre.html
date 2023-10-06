@@ -1,169 +1,185 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-	tr, td{
-		vertical-align : top;
-	}
-	table{
-		width: 100%;
-	}
-	.tag{
-		height: 200px;
-	}
-	.search{
-		position: relative;
-		width: 97%;
-	}
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		tr, td{
+			vertical-align : top;
+		}
+		table{
+			width: 100%;
+		}
+		.tag{
+			height: 200px;
+		}
+		.search{
+			position: relative;
+			width: 97%;
+		}
 
-    input {
-        width: 100%;
-        border: 1px solid #bbb;
-        border-radius: 8px;
-        padding: 10px 12px;
-        font-size: 14px;
-    }
+		input {
+			width: 100%;
+			border: 1px solid #bbb;
+			border-radius: 8px;
+			padding: 10px 12px;
+			font-size: 14px;
+		}
 
-	.sh{
-		position : absolute;
-		width: 17px;
-		top: 10px;
-		right: 12px;
-		margin: 0;
-	}
-	.goupbtn{
-		top: 88%;
-		left: 93%;
-		width: 50px;
-		height: 50px;
-		border-radius: 80%;
-		background-color: #ffffff;
-		border: red 3px solid;
-		position: fixed;
-		z-index: 2;
-	}
-    .webtoon {
-        width: 150px;
-        height: 200px;
-        border: solid black;
-    }
-    .webname {
-        width: 70px;
-        height: 30px;
-    }
-</style>
+		.sh{
+			position : absolute;
+			width: 17px;
+			top: 10px;
+			right: 12px;
+			margin: 0;
+		}
+		.goupbtn{
+			top: 88%;
+			left: 93%;
+			width: 50px;
+			height: 50px;
+			border-radius: 80%;
+			background-color: #ffffff;
+			border: red 3px solid;
+			position: fixed;
+			z-index: 2;
+		}
+		.webtoon {
+			width: 150px;
+			height: 200px;
+			border: solid black;
+		}
+		.webname {
+			width: 70px;
+			height: 30px;
+		}
+	</style>
 </head>
 <body>
-	<form method="post">
-		<input class="goupbtn" type="button" value="Top" onclick="clickme()"></div>
-		<script>
-			function clickme(){
-			window.scrollTo(0,0);
-			}
-		</script>
-		<div style="text-align : center;">
-			<img src="/resources/images/logo.jpg" width="300px" , height="80px">
-			<select style="float : right;">
-				<option value="">마이페이지</option>
-				<option value="">개인정보 수정</option>
-				<option value="">로그아웃</option>
-			</select>
-		</div>
-		<div class="search">
-			<input type="text" placeholder="웹툰 검색">
-			<img class="sh" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
-		</div>
-		<div>
-			<a>태그를 선택 해보세요</a>
-			<select style="float : right;">
-				<option value="">이름순정렬</option>
-				<option value="">회사별정렬</option>
-				<option value="">좋아요순정렬</option>
-			</select>
-		</div>
-		<div>
-			<button type="button" class="btn1">로맨스</button>
-			<button type="button" class="btn1">일상</button>
-			<button type="button" class="btn1">판타지</button>
-			<button type="button" class="btn1">드라마</button>
-			<button type="button" class="btn1">개그</button>
-			<button type="button" class="btn1">액션</button>
-			<button type="button" class="btn1">사극</button>
-		</div>
-<!--		<div>-->
-<!--			<img src="1.jpg" width="200px" , height="260px">-->
-<!--			<img src="2.jpg" width="200px" , height="260px">-->
-<!--			<img src="3.jpg" width="200px" , height="260px">-->
-<!--			<img src="4.jpg" width="200px" , height="260px">-->
-<!--			<img src="5.jpg" width="200px" , height="260px">-->
-<!--			<img src="6.jpg" width="200px" , height="260px">-->
-<!--			<img src="7.jpg" width="200px" , height="260px">-->
-<!--			<img src="8.jpg" width="200px" , height="260px">-->
-<!--			<img src="9.jpg" width="200px" , height="260px">-->
-<!--		</div>-->
-		<!-- Thymeleaf로 받아온 데이터를 임시로 저장하는 th:block -->
-		<th:block th:each="toon : ${toons}">
-			<span class="toon-data" th:data-image="${toon.TOON_IMAGELINK}" th:data-link="${toon.TOON_LINK}"></span>
-		</th:block>
-
-		<!-- 실제 웹툰 리스트를 표시할 div -->
-		<div id="toonList"></div>
-		<div class="webname">
-			<a>1</a>
-		</div>
-	</form>
+<form method="post">
+	<input class="goupbtn" type="button" value="Top" onclick="clickme()"></div>
 	<script>
-		function goToLink(link) {
-			window.location.href = link;
+		function clickme(){
+			window.scrollTo(0,0);
+		}
+	</script>
+	<div style="text-align : center;">
+		<img src="img/logo.jpg" width="300px" , height="80px">
+		<select style="float : right;">
+			<option value="">마이페이지</option>
+			<option value="">개인정보 수정</option>
+			<option value="">로그아웃</option>
+		</select>
+	</div>
+	<div class="search">
+		<input type="text" placeholder="웹툰 검색">
+		<img class="sh" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+	</div>
+	<div>
+		<a>태그를 선택 해보세요</a>
+		<select style="float : right;">
+			<option value="">이름순정렬</option>
+			<option value="">회사별정렬</option>
+			<option value="">좋아요순정렬</option>
+		</select>
+	</div>
+	<div>
+		<button type="button" class="btn1">로맨스</button>
+		<button type="button" class="btn1">일상</button>
+		<button type="button" class="btn1">판타지</button>
+		<button type="button" class="btn1">드라마</button>
+		<button type="button" class="btn1">개그</button>
+		<button type="button" class="btn1">액션</button>
+		<button type="button" class="btn1">사극</button>
+	</div>
+	<!--		<div>-->
+	<!--			<img src="1.jpg" width="200px" , height="260px">-->
+	<!--			<img src="2.jpg" width="200px" , height="260px">-->
+	<!--			<img src="3.jpg" width="200px" , height="260px">-->
+	<!--			<img src="4.jpg" width="200px" , height="260px">-->
+	<!--			<img src="5.jpg" width="200px" , height="260px">-->
+	<!--			<img src="6.jpg" width="200px" , height="260px">-->
+	<!--			<img src="7.jpg" width="200px" , height="260px">-->
+	<!--			<img src="8.jpg" width="200px" , height="260px">-->
+	<!--			<img src="9.jpg" width="200px" , height="260px">-->
+	<!--		</div>-->
+	<!-- Thymeleaf로 받아온 데이터를 임시로 저장하는 th:block -->
+	<th:block th:each="toon : ${toons}">
+		<span class="toon-data" th:data-image="${toon.TOON_IMAGELINK}" th:data-link="${toon.TOON_LINK}" th:data-platform="${toon.TOON_PLATFORM}"></span>
+	</th:block>
+
+	<!-- 실제 웹툰 리스트를 표시할 div -->
+	<div id="toonList"></div>
+	<div class="webname">
+		<a></a>
+	</div>
+</form>
+<script>
+	function goToLink(link) {
+		window.location.href = link;
+	}
+
+	document.querySelector(".sh").addEventListener("click", function() {
+		console.log('클릭');
+		var searchKeyword = document.querySelector("input[placeholder='웹툰 검색']").value;
+		console.log("searchKeyword:" + searchKeyword);
+		fetch('/searchToon?keyword=' + searchKeyword)
+				.then(response => response.json())
+				.then(data => {
+					console.log("data:", data);  // 객체 내용 출력
+					updateToonList(data);
+				});
+	});
+
+	function updateToonList(toons) {
+		console.log("updateToonList:", toons);
+		var toonContainer = document.getElementById("toonList");
+
+		while (toonContainer.firstChild) {
+			console.log("firstChild!!:");
+			toonContainer.removeChild(toonContainer.firstChild);
 		}
 
-		document.querySelector(".sh").addEventListener("click", function() {
-			console.log('클릭');
-			var searchKeyword = document.querySelector("input[placeholder='웹툰 검색']").value;
-			console.log("searchKeyword:" + searchKeyword);
-			fetch('/searchToon?keyword=' + searchKeyword)
-					.then(response => response.json())
-					.then(data => {
-						console.log("data:", data);  // 객체 내용 출력
-						updateToonList(data);
-					});
+		toons.forEach(toon => {
+			var img = document.createElement('img');
+			img.setAttribute('src', toon.toon_IMAGELINK.replace(/"/g, ''));
+			img.setAttribute('onclick', "goToLink('" + toon.toon_LINK.replace(/"/g, '') + "')");
+			img.setAttribute('width', '180px');
+			img.setAttribute('height', '260px');
+			if(toon.toon_PLATFORM=="1"){
+				img.setAttribute('style', 'border: 6px solid green; margin: 3px;'); // 테두리 스타일 및 간격 추가
+			}else if(toon.toon_PLATFORM=="2"){
+				img.setAttribute('style', 'border: 6px solid red; margin: 3px;'); // 테두리 스타일 및 간격 추가
+			}else if(toon.toon_PLATFORM=="3"){
+				img.setAttribute('style', 'border: 6px solid yellow; margin: 3px;'); // 테두리 스타일 및 간격 추가
+			}
+			toonContainer.appendChild(img);
 		});
+	}
 
-		function updateToonList(toons) {
-			console.log("updateToonList:", toons);
-			var toonContainer = document.getElementById("toonList");
+	// 페이지 로드가 완료되면 동적으로 웹툰 리스트 생성
+	window.addEventListener('DOMContentLoaded', function() {
+		const toonContainer = document.getElementById("toonList");
+		const toonDataElements = document.querySelectorAll(".toon-data");
 
-			while (toonContainer.firstChild) {
-				console.log("firstChild!!:");
-				toonContainer.removeChild(toonContainer.firstChild);
+		toonDataElements.forEach(element => {
+
+			const img = document.createElement('img');
+			img.setAttribute('src', element.getAttribute('data-image'));
+			img.setAttribute('onclick', "goToLink('" + element.getAttribute('data-link') + "')");
+			img.setAttribute('width', '180px');
+			img.setAttribute('height', '260px');
+			if(element.getAttribute('data-platform')=='1'){
+				img.setAttribute('style', 'border: 6px solid green; margin: 3px;'); // 테두리 스타일 및 간격 추가
+			}else if(element.getAttribute('data-platform')=='2'){
+				img.setAttribute('style', 'border: 6px solid red; margin: 3px;'); // 테두리 스타일 및 간격 추가
+			}else if(element.getAttribute('data-platform')=='3'){
+				img.setAttribute('style', 'border: 6px solid yellow; margin: 3px;'); // 테두리 스타일 및 간격 추가
 			}
 
-			toons.forEach(toon => {
-				var img = document.createElement('img');
-				img.setAttribute('src', toon.toon_IMAGELINK.replace(/"/g, ''));
-				img.setAttribute('onclick', "goToLink('" + toon.toon_LINK.replace(/"/g, '') + "')");
-				img.setAttribute('width', '200px');
-				img.setAttribute('height', '260px');
-				toonContainer.appendChild(img);
-			});
-		}
-
-		// 페이지 로드가 완료되면 동적으로 웹툰 리스트 생성
-		window.addEventListener('DOMContentLoaded', function() {
-			const toonContainer = document.getElementById("toonList");
-			const toonDataElements = document.querySelectorAll(".toon-data");
-
-			toonDataElements.forEach(element => {
-				const img = document.createElement('img');
-				img.setAttribute('src', element.getAttribute('data-image'));
-				img.setAttribute('onclick', "goToLink('" + element.getAttribute('data-link') + "')");
-				img.setAttribute('width', '200px');
-				img.setAttribute('height', '260px');
-				toonContainer.appendChild(img);
-			});
+			toonContainer.appendChild(img);
 		});
-	</script>
+	});
+</script>
 </body>
 </html>

@@ -24,6 +24,7 @@ public class ToonServiceImpl {
 		for (Toon toon : toons) {
 			toon.setTOON_IMAGELINK(toon.getTOON_IMAGELINK().replace("\"", ""));
 			toon.setTOON_LINK(toon.getTOON_LINK().replace("\"", ""));
+			toon.setTOON_PLATFORM(toon.getTOON_PLATFORM());
 		}
 		return toons;
 	}
