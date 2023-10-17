@@ -199,8 +199,26 @@ public class MainController {
         }
     }
 
+    //20231014 추가 - 전체조회 랜덤순
+    @GetMapping("/selectToon")
+    @ResponseBody
+    public List<Toon> selectToon() {
+        List<Toon> toons = toonService.searchToons();
+        // allToons 리스트의 순서를 랜덤하게 변경
+        Collections.shuffle(toons);
+        return toons;
+    }
+    //20231014 추가 - 전체조회 이름순
+    @GetMapping("/selectToonByName")
+    @ResponseBody
+    public List<Toon> selectToonByName() {
+        List<Toon> toons = toonService.searchToonsByName();
+        return toons;
+    }
+
     //20230921 검색기능 추가
-    @GetMapping("/searchToon")
+    //20231014 추가 - uri 변경
+    @GetMapping("/searchToonByRandom")
     @ResponseBody
     public List<Toon> searchToon(@RequestParam String keyword) {
         logger.info("searchToon이 타고있나요?"); // 로그 메시지 추가
@@ -209,7 +227,22 @@ public class MainController {
         return toons;
     }
 
-
+    //20231014 추가 - 태그 선택 이름순
+    @GetMapping("/tagByname")
+    @ResponseBody
+    public List<Toon> byNameToon(@RequestParam String keyword) {
+        List<Toon> toons = toonService.tagToonsByKeywordByName(keyword);
+        logger.info("toons : "+toons); // 로그 메시지 추가
+        return toons;
+    }
+    //20231014 추가 - 태그 선택 랜덤순
+    @GetMapping("/tagByRandom")
+    @ResponseBody
+    public List<Toon> tagToon(@RequestParam String keyword) {
+        List<Toon> toons = toonService.tagToonsByKeyword(keyword);
+        Collections.shuffle(toons);
+        return toons;
+    }
 
 
     @GetMapping("/user/pw")

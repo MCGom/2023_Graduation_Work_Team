@@ -28,8 +28,32 @@ public class ToonServiceImpl {
 		}
 		return toons;
 	}
+
+	// 20231013 추가 - 랜덤 전체 조회
+	public List<Toon> searchToons() {
+		List<Toon> toons = toonMapper.selectToon();
+		return toons;
+	}
+	// 20231013 추가 - 이름순 전체 조회
+	public List<Toon> searchToonsByName() {
+		List<Toon> toons = toonMapper.selectToonByName();
+		return toons;
+	}
+
 	public List<Toon> searchToonsByKeyword(String keyword) {
 		List<Toon> toons = toonMapper.selectKeywordToon(keyword);
 		return toons;
 	}
+
+	// 20231013 추가 - 태그에 맞는 랜덤 조회
+	public List<Toon> tagToonsByKeyword(String keyword) {
+		List<Toon> toons = toonMapper.tagKeywordToon(keyword);
+		return toons;
+	}
+	// 20231013 추가 - 태그에 맞는 이름순 조회
+	public List<Toon> tagToonsByKeywordByName(String keyword) {
+		List<Toon> toons = toonMapper.tagKeywordToonByName(keyword);
+		return toons;
+	}
+
 }

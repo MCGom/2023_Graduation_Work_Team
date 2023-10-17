@@ -8,10 +8,28 @@
 		SELECT TOON_LINK, TOON_IMAGELINK, TOON_PLATFORM FROM toon_table
 	</select>
 
+	<select id="selectToonByName" resultType="com.toonplus.toon.dto.Toon">
+		SELECT TOON_LINK, TOON_IMAGELINK,TOON_PLATFORM FROM toon_table
+		ORDER BY Toon_name ASC
+	</select>
+
 	<select id="selectKeywordToon" parameterType="string" resultType="com.toonplus.toon.dto.Toon">
 		SELECT TOON_LINK, TOON_IMAGELINK ,TOON_PLATFORM
 		FROM toon_table
 		WHERE N_toon LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+
+	<select id="tagKeywordToon" parameterType="string" resultType="com.toonplus.toon.dto.Toon">
+		SELECT TOON_LINK, TOON_IMAGELINK ,TOON_PLATFORM
+		FROM toon_table
+		WHERE Toon_category LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+
+	<select id="tagKeywordToonByName" parameterType="string" resultType="com.toonplus.toon.dto.Toon">
+		SELECT TOON_LINK, TOON_IMAGELINK, TOON_PLATFORM
+		FROM toon_table
+		WHERE Toon_category LIKE CONCAT('%', #{keyword}, '%')
+		ORDER BY Toon_name ASC
 	</select>
 
 </mapper>

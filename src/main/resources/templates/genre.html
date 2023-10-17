@@ -53,6 +53,12 @@
 			width: 70px;
 			height: 30px;
 		}
+		/* 20231014추가 버튼이 클릭되었을때 활성화 디자인으로 변경 */
+		.btn1-active {
+			background-color: #e0e0e0;
+			border: 2px solid #000;
+		}
+
 	</style>
 </head>
 <body>
@@ -64,7 +70,7 @@
 		}
 	</script>
 	<div style="text-align : center;">
-		<img src="/resources/images/logo.jpg" width="300px" , height="80px">
+		<img src="img/logo.jpg" width="300px" , height="80px">
 		<select style="float : right;">
 			<option value="">마이페이지</option>
 			<option value="">개인정보 수정</option>
@@ -77,7 +83,8 @@
 	</div>
 	<div>
 		<a>태그를 선택 해보세요</a>
-		<select style="float : right;">
+		<select id="selectbox" style="float : right;">
+			<option value="">랜덤정렬</option>
 			<option value="">이름순정렬</option>
 			<option value="">회사별정렬</option>
 			<option value="">좋아요순정렬</option>
@@ -111,19 +118,26 @@
 	<!-- 실제 웹툰 리스트를 표시할 div -->
 	<div id="toonList"></div>
 	<div class="webname">
-		<a></a>
+		<a>1</a>
 	</div>
 </form>
 <script>
+	var btnClicked = false; //태그 버튼 클릭한 유무
+	var tag = "";           //클릭했던 태그 이름
+	var selectedOption = "랜덤정렬";   //선택한 selectbox
+
 	function goToLink(link) {
 		window.location.href = link;
 	}
 
 	document.querySelector(".sh").addEventListener("click", function() {
+		// 모든 버튼 active클래스 제거
+		document.querySelectorAll(".btn1").forEach(btn => btn.classList.remove("btn1-active"));
+		btnClicked = false;
 		console.log('클릭');
 		var searchKeyword = document.querySelector("input[placeholder='웹툰 검색']").value;
 		console.log("searchKeyword:" + searchKeyword);
-		fetch('/searchToon?keyword=' + searchKeyword)
+		fetch('/searchToonByRandom?keyword=' + searchKeyword)
 				.then(response => response.json())
 				.then(data => {
 					console.log("data:", data);  // 객체 내용 출력
@@ -131,12 +145,81 @@
 				});
 	});
 
+	//20231013 태그 선택 기능 추가
+
+
+	document.querySelectorAll(".btn1").forEach(function(button) {
+		button.addEventListener("click", function() {
+			// 모든 버튼 active클래스 제거
+			document.querySelectorAll(".btn1").forEach(btn => btn.classList.remove("btn1-active"));
+			// 누른 버튼 active클레스 추가
+			this.classList.add("btn1-active");
+
+			var searchKeyword = this.textContent; // 버튼의 텍스트 내용을 가져옵니다.
+			btnClicked = true;
+			tag = searchKeyword;
+			if(selectedOption==="랜덤정렬"){
+				console.log(searchKeyword+" 태그 "+selectedOption);
+				fetch('/tagByRandom?keyword=' + searchKeyword)
+						.then(response => response.json())
+						.then(data => {
+							//console.log("data:", data);  // 객체 내용 출력
+							updateToonList(data);
+						});
+			}else if(selectedOption==="이름순정렬"){
+				console.log(searchKeyword+" 태그 "+selectedOption);
+				fetch('/tagByname?keyword=' + searchKeyword)
+						.then(response => response.json())
+						.then(data => {
+							//console.log("data:", data);  // 객체 내용 출력
+							updateToonList(data);
+						});
+			}
+
+		});
+	});
+	document.getElementById("selectbox").addEventListener("change", function() {
+		selectedOption = this.options[this.selectedIndex].text;
+		if (selectedOption === "이름순정렬" && btnClicked) {
+			console.log(tag+" 태그 "+selectedOption);
+			fetch('/tagByname?keyword=' + tag)
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}else if(selectedOption === "이름순정렬" && !btnClicked) {
+			console.log("전체 "+selectedOption);
+			fetch('/selectToonByName')
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}else if(selectedOption === "랜덤정렬" && btnClicked) {
+			console.log(tag+" 태그 "+selectedOption);
+			fetch('/tagByRandom?keyword=' + tag)
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}else if(selectedOption === "랜덤정렬" && !btnClicked) {
+			console.log("전체 "+selectedOption);
+			fetch('/selectToon')
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}
+	});
 	function updateToonList(toons) {
-		console.log("updateToonList:", toons);
+		//console.log("updateToonList:", toons);
 		var toonContainer = document.getElementById("toonList");
 
 		while (toonContainer.firstChild) {
-			console.log("firstChild!!:");
+			//console.log("firstChild!!:");
 			toonContainer.removeChild(toonContainer.firstChild);
 		}
 
@@ -144,14 +227,14 @@
 			var img = document.createElement('img');
 			img.setAttribute('src', toon.toon_IMAGELINK.replace(/"/g, ''));
 			img.setAttribute('onclick', "goToLink('" + toon.toon_LINK.replace(/"/g, '') + "')");
-			img.setAttribute('width', '180px');
+			img.setAttribute('width', '200px');
 			img.setAttribute('height', '260px');
 			if(toon.toon_PLATFORM=="1"){
-				img.setAttribute('style', 'border: 6px solid green; margin: 3px;'); // 테두리 스타일 및 간격 추가
+				img.setAttribute('style', 'border: 6px solid green; margin: 10px;'); // 테두리 스타일 및 간격 추가
 			}else if(toon.toon_PLATFORM=="2"){
-				img.setAttribute('style', 'border: 6px solid red; margin: 3px;'); // 테두리 스타일 및 간격 추가
+				img.setAttribute('style', 'border: 6px solid red; margin: 10px;'); // 테두리 스타일 및 간격 추가
 			}else if(toon.toon_PLATFORM=="3"){
-				img.setAttribute('style', 'border: 6px solid yellow; margin: 3px;'); // 테두리 스타일 및 간격 추가
+				img.setAttribute('style', 'border: 6px solid yellow; margin: 10px;'); // 테두리 스타일 및 간격 추가
 			}
 			toonContainer.appendChild(img);
 		});
@@ -167,14 +250,14 @@
 			const img = document.createElement('img');
 			img.setAttribute('src', element.getAttribute('data-image'));
 			img.setAttribute('onclick', "goToLink('" + element.getAttribute('data-link') + "')");
-			img.setAttribute('width', '180px');
+			img.setAttribute('width', '200px');
 			img.setAttribute('height', '260px');
 			if(element.getAttribute('data-platform')=='1'){
-				img.setAttribute('style', 'border: 6px solid green; margin: 3px;'); // 테두리 스타일 및 간격 추가
+				img.setAttribute('style', 'border: 6px solid green; margin: 10px;'); // 테두리 스타일 및 간격 추가
 			}else if(element.getAttribute('data-platform')=='2'){
-				img.setAttribute('style', 'border: 6px solid red; margin: 3px;'); // 테두리 스타일 및 간격 추가
+				img.setAttribute('style', 'border: 6px solid red; margin: 10px;'); // 테두리 스타일 및 간격 추가
 			}else if(element.getAttribute('data-platform')=='3'){
-				img.setAttribute('style', 'border: 6px solid yellow; margin: 3px;'); // 테두리 스타일 및 간격 추가
+				img.setAttribute('style', 'border: 6px solid yellow; margin: 10px;'); // 테두리 스타일 및 간격 추가
 			}
 
 			toonContainer.appendChild(img);
