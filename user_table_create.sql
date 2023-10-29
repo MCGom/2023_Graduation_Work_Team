@@ -10,5 +10,7 @@ CREATE TABLE `user_table` (
   `USER_NAME` varchar(45) DEFAULT NULL,
   `USER_MYPAGE` varchar(45) DEFAULT NULL,
   `USER_FAVORITE` longtext,
+  `USER_LIKES` longtext,
+  `USER_INTRODUCE` longtext,
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
