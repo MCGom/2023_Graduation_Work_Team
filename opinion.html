@@ -46,68 +46,56 @@
 </style>
 </head>
 <body>
-	<form action="signup.jsp" method="post">
+
 		<div style="text-align : center;">
 			<img src="logo.jpg" width="300px" , height="80px">
+			<select style="float : right;" onchange="if(this.value) location.href=(this.value);">
+				<option value="main">메뉴</option>
+				<option value="user/mypage">마이페이지</option>
+				<option value="update">개인정보 수정</option>
+				<option value="home">로그아웃</option>
+			</select>
 		</div>
-		<div style="margin: 400px;">
+		<img style="width:100%; height:350px; border-color:#F7691C; border-style: solid; opacity:75%" th:src="${toonImage.TOON_IMAGELINK}" >
 					
-		</div>
+		</img>
 		<div style="background-color:#d7d7d7;"><hr style="border:none;" />
 		<table>
 			<tr>
 				<td class="you">의견 남기기</td>
 			</tr>
 			<tr>
+				<form action="reviewSubmit" method="post">
 				<td class="write1">
-					<input type="text" style="width:100%; height: 75px;">
-					<input type="submit" value="작성" class="wbtn">
+					<input th:value="${writer.USER_ID}" type="hidden" name="USER_ID">
+					<input style="width:100%; height: 75px;" th:value="${writer.REVIEW_CONTENT}" name="NEW_REVIEW_CONTENT">
+					<input th:value="${writer.REVIEW_CONTENT}" name="REVIEW_CONTENT" type="hidden">
+					<input th:value="${toonImage.TOON_NAME}" name="TOON_NAME" type="hidden">
+					<input type="submit" value="작성" class="wbtn" id="reviewSubmit">
+
 				</td>
+				</form>
 			</tr>
 			</table>
 		</div>
+
 			<hr />
-			<div style="background-color:#f1f1f1;"">
+			<div style="background-color:#f1f1f1;">
+
 				<table>
-					<tr class="line">
-						<td class="you">아이디</td>
-					</tr>
-					<tr>
+					<tr th:each="review, rowStat : ${reviews}">
 						<td class="write2">
-							<input type="text" style="width:100%; height: 75px; border:none">
-							<input type="submit" value="좋아요 수" style="float:right;">
-							<input type="submit" value="별점"  style="float:right;">
+							<form action="reviewToMypage">
+								<input type="hidden" th:value="${review.USER_ID}" name="user_id">
+								<input class="line" th:id="'id_' + ${rowStat.index}" th:value="${review.USER_ID}" type="submit">
+								<input style="width:100%; height: 75px; border:none" th:id="'content_' + ${rowStat.index}" th:value="${review.REVIEW_CONTENT}"readonly>
+							</form>
 						</td>
 					</tr>
-					<tr>
-						<td class="you">아이디</td>
-					</tr>
-					<tr>
-						<td class="write2">
-							<input type="text" style="width:100%; height: 75px;">
-							<input type="submit" value="좋아요 수" style="float:right;">
-							<input type="submit" value="별점" style="float:right;">
-						</td>
-					</tr>
-					<tr>
-						<td class="you">아이디</td>
-					</tr>
-					<tr>
-						<td class="write">
-							<input type="text" style="width:100%; height: 75px;">
-							<input type="submit" value="좋아요 수" style="float:right;">
-							<input type="submit" value="별점" style="float:right;">
-						</td>
-					</tr>
-					<tr>
-						<td style="text-align:center;">
-							<span class="box">
-								<span class="page_more">더보기</span>
-							</span>
-						</td>
-					</tr>
+
 				</table>
+
 			</div>
-	</form>
+
 </body>
 </html>
