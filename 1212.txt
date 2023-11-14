@@ -1,0 +1,5 @@
+
+
+<button type="button" th:id="${toon.TOON_NAME}"onclick="opinionlink(this) ">
+						<alt="의견" max-width="50px"></button>
+<input type="hidden" th:value="${user.getUSER_ID()}" id="user_id">
