@@ -27,7 +27,7 @@
 * 메인 페이지(비로그인)
   <br/>비로그인 상태 메인 페이지입니다. 웹툰사별 금일 업데이트된 웹툰, 웹툰사별 신작, 자체적인 좋아요를 통해 제공되는 인기작 기능 및 태그별 웹툰 보기와 검색 기능을 이용할 수 있으며, 웹툰별 좋아요 수를 확인할 수 있습니다.
   <br/>회원 정보에 따라 제공되는 추천 기능을 이용할 수 없으며, 좋아요, 즐겨찾기, 의견 페이지를 이용할 수 없습니다.
-  <img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/f737ae33-c9bd-4c89-a00e-ae3fbf5eb1a8">
+  <img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/f737ae33-c9bd-4c89-a00e-ae3fbf5eb1a8"><br/><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/dd4d241e-b8d5-436a-a840-30e4e5067255">
 
 * 메인 페이지(로그인)
  <br/>로그인 상태 메인 페이지입니다. 비로그인 상태에서 이용 가능한 모든 기능에, 회원 정보 기반 추천, 즐겨찾기한 웹툰 및 좋아요, 즐겨찾기, 의견 페이지를 이용할 수 있습니다.
