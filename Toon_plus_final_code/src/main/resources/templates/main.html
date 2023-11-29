@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/s-btn1.css">
+	<link rel="stylesheet" type="text/css" href="/css/s-btn2.css">
+	<link rel="stylesheet" type="text/css" href="/css/menu.css">
+	<link rel="stylesheet" type="text/css" href="/css/btnup.css">
+	<link rel="stylesheet" type="text/css" href="/css/opbtn.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+         .toon-item {
+            justify-content: center;
+            width: 150px; /* 이미지 너비 */
+            text-align: center;
+            margin: 0 40% 0 40%; /* 이미지 간격 조절 */
+        }
+
+        .toon-item img {
+            width: 100%;
+            height: auto;
+        }
+
+		.divcenter {
+			display: flex;
+			display: inline-block;
+			justify-content: center;
+		}
+
+        .likes {
+            font-weight: bold;
+        }
+		.widthop {
+			width: 30px;
+		}
+        .po {
+			width: 170px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			margin-left: 15px;
+
+		}
+
+        /* 좋아요(즐겨찾기) 버튼 스타일 */
+        .favorite-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .favorited {
+            background-color: #ff0000; /* 즐겨찾기가 활성화된 경우의 스타일 */
+        }
+        
+        .tooltip {
+            visibility: hidden;
+            width: 120px;
+            background-color: #0000;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; 
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+
+        .tooltip-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+		.webtoon {
+			width: 150px;
+			height: 200px;
+			border: solid black;
+		}
+		.webname {
+			width: 70px;
+			height: 30px;
+		}
+		/* 20231014추가 버튼이 클릭되었을때 활성화 디자인으로 변경 */
+		.btn1-active {
+			background-color: #e0e0e0;
+			border: 2px solid #000;
+		}
+		.padd1 {
+			margin: 0 20px 0 20px;
+		}
+		.padd2 {
+			margin: 0 20px 0 20px;
+		}
+
+		 .conmol {
+
+			 width: 40px;
+			 text-align: right;
+			 border: hidden;
+			 font-size: 20px;
+			 font-weight: 300;
+			 margin: 0 0 0 30px;
+		 }
+
+		.fweb {
+			margin: 700px 0 0 0;
+			position: relative;
+
+		}
+		.neww {
+			text-align: left;
+			padding: 0 10px 0 10px;
+		}
+		.hott {
+			text-align: left;
+			padding: 0 30px 0 50px;
+		}
+		p {
+			text-align: center;
+			display: block;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width: 170px;
+
+		}
+		.b {
+			display: flex;
+			align-items: center;
+			font-style: normal;
+			font-weight: inherit;
+			line-height: 120%;
+			font-family: fantasy;
+		}
+
+		.mol {
+			margin: 0 10px 0 20px;
+			width: 40px;
+			text-align: right;
+			border: hidden;
+			font-size: 20px;
+			font-weight: 300;
+
+		}
+
+		 .mol2 {
+
+			 width: 40px;
+			 text-align: right;
+			 border: hidden;
+			 font-size: 20px;
+			 font-weight: 300;
+
+		 }
+	</style>
+</head>
+<body>
+
+		<input type="hidden" th:value="${user.getUSER_ID()}" id="user_id">
+		<input class="goupbtn" type="button" value="Top" onclick="clickme()"></div>
+		<script>
+			function clickme() {
+				window.scrollTo(0, 0);
+			}
+		</script>
+		<td style="text-align: center;">
+			<img src="/resources/images/logo.jpg" width="300px" , height="80px">
+			<ul id="out">
+				<li>
+						<a href="#">메인메뉴</a>
+					<ul>
+						<li th:unless="${user.getUSER_ID() == '0000'}"><a href="/user/mypage">내정보</a></li>
+						<li th:unless="${user.getUSER_ID() == '0000'}"><a href="/user/update">개인정보수정</a> </li>
+						<li th:unless="${user.getUSER_ID() == '0000'}"><a href="/home">로그아웃</a></li>
+						<li th:if="${user.getUSER_ID() == '0000'}"><a href="/user/signup">회원가입</a></li>
+						<li th:if="${user.getUSER_ID() == '0000'}"><a href="/user/login">로그인</a></li>
+					</ul>
+				</li>
+			</ul>
+		</td>
+		<table>
+			<div id="container" class="a">
+				<div class="slide_wrap">
+					<div class="slide_box">
+						<div class="slide_list clearfix">
+							<!-- Use Thymeleaf to iterate over 'toons' -->
+							<div th:each="toon : ${toons}" class="slide_content">
+								<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+								<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+								<div class="toon-item" style="text-align: center">
+
+									<p th:text="${toon.TOON_NAME}"></p>
+
+									<input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+										   th:id="${toon.TOON_NAME}" width="30px" height="30px">
+
+									<input type="text" th:value="${toon.TOON_LIKES}" readonly class="conmol">
+
+									<form action="/opinion" method="get">
+
+										<input type="submit" class="btn-hover color-2"
+											   value="의견" max-width="50px">
+										<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton" width="0px" height="0px"></form>
+
+									<input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+										   th:id="${toon.TOON_NAME}" width="50px" height="40px">
+
+
+								</div>
+							</div>
+						</div>
+						<!-- // .slide_list -->
+					</div>
+					<!-- // .slide_box -->
+					<div class="slide_btn_box">
+						<button type="button" class="slide_btn_prev">&lt;</button>
+						<button type="button" class="slide_btn_next">&gt;</button>
+					</div>
+					<!-- // .slide_btn_box -->
+					<ul class="slide_pagination"></ul>
+					<!-- // .slide_pagination -->
+				</div>
+				<!-- // .slide_wrap -->
+			</div>
+			<!-- // .container -->
+		</table>
+		<table>
+		<div style="white-space: nowrap; width: 100%; overflow-x: auto;">
+			<tr>
+				<td colspan="3" align="left">
+					<img src="/resources/images/favorites.png" width="80px" class="b">             <!-- 선호장르  -->
+				</td>
+			</tr>
+		</div>
+			<tr>
+				<!-- 카테고리 1 -->
+				<td th:if="${pick1Toons != null}">
+					<div th:each="toon : ${pick1Toons}" style="display: inline-block;">
+						<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+						<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+						<p th:text="${toon.TOON_NAME}"></p>
+			<table>
+				<tr>
+						<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+																			th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+					<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+				</tr>
+			</table>
+						<form action="/opinion" method="get">
+							<table>
+								<tr>
+							<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+								   value="의견" max-width="50px">
+								<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+							<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+																	th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</td>
+				<!-- 카테고리 2 -->
+				<td th:if="${pick2Toons != null}">
+					<div th:each="toon : ${pick2Toons}" style="display: inline-block;">
+						<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+						<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+						<p th:text="${toon.TOON_NAME}"></p>
+				<table>
+					<tr>
+						<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+																  th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+
+						<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+					</tr>
+				</table>
+						<form action="/opinion" method="get">
+							<table>
+								<tr>
+							<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+								   value="의견" max-width="50px">
+								<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+							<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+								   th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+
+								</tr>
+							</table>
+						</form>
+					</div>
+				</td>
+				<!-- 카테고리 3 -->
+				<td th:if="${pick3Toons != null}">
+					<div th:each="toon : ${pick3Toons}" style="display: inline-block;">
+						<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+						<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+						<p th:text="${toon.TOON_NAME}"></p>
+				<table>
+					<tr>
+						<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+																	 th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+
+						<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+					</tr>
+				</table>
+						<form action="/opinion" method="get">
+							<table>
+								<tr>
+							<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+								   value="의견" max-width="50px">
+								<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+							<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+																	th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" align="left" class="c">
+					<b class="b"><img src="/resources/images/즐겨찾기.PNG" width="80px" > 즐겨찾기목록 </b>             <!-- 즐겨찾기  -->
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="3">
+					<div th:each="toon : ${favoriteToons}" style=" display: inline-block;">
+						<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+						<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+						<p th:text="${toon.TOON_NAME}"></p>
+				<table>
+					<tr>
+						<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+																	 th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+
+						<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+					</tr>
+				</table>
+						<form action="/opinion" method="get">
+							<table>
+								<tr>
+							<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+								   value="의견" max-width="50px">
+								<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+							<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+																	th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<b class="b"><img src="/resources/images/up.PNG" width="80px"> 새로운 회차가 올라왔습니다~ </b>                      <!-- 오늘 올라온 신작 -->
+				</td>
+			</tr>
+			<tr>
+				<td class="neww">
+					<div th:each="toon : ${upt1}"style=" display: inline-block;">
+						<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+						<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+						<p th:text="${toon.TOON_NAME}"></p>
+				<table>
+					<tr>
+						<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+																	 th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+
+						<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+					</tr>
+				</table>
+						<form action="/opinion" method="get">
+							<table>
+							<tr>
+							<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+								   value="의견" max-width="50px">
+								<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+							<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+																	th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+							</tr>
+							</table>
+						</form>
+					</div>
+				</td>
+				<td class="neww">
+					<div th:each="toon : ${upt2}"style=" display: inline-block;">
+						<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+						<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+						<p th:text="${toon.TOON_NAME}"></p>
+				<table>
+					<tr>
+						<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+																	 th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+
+						<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+					</tr>
+				</table>
+						<form action="/opinion" method="get">
+							<table>
+								<tr>
+							<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+								   value="의견" max-width="50px">
+								<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+							<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+																	th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</td>
+				<td class="neww">
+					<div th:each="toon : ${upt3}"style=" display: inline-block;">
+						<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+						<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+						<p th:text="${toon.TOON_NAME}"></p>
+				<table>
+					<tr>
+						<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+																	 th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+
+						<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+					</tr>
+				</table>
+						<form action="/opinion" method="get">
+							<table>
+								<tr>
+							<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+								   value="의견" max-width="50px">
+								<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+							<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+																	th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" align="left">
+					<img src="https://img.freepik.com/premium-vector/new-text-lettering-isolated-white-colourful-text-effect-design-vector-text-inscriptions-english-modern-creative-design-has-red-orange-yellow-colors_7280-8188.jpg?w=1480"
+						 width="80px" />
+				</td>
+			</tr>
+			<tr>
+				<td class="neww"><img src="https://ifh.cc/g/WNPobx.png" width="80px"></td>   <!-- 네이버    -->
+				<td class="neww"><img src="https://ifh.cc/g/hlX3lB.png" width="150px"></td>    <!-- 레진  -->
+				<td class="neww"><img src="https://ifh.cc/g/ZQ9Ly4.png" width="80px"></td>    <!--  카카오  -->
+			</tr>
+				<tr>
+					<td class="neww">
+				<div th:each="toon : ${newt1}"style=" display: inline-block;">
+					<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+					<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+					<p th:text="${toon.TOON_NAME}"></p>
+			<table>
+				<tr>
+					<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+																 th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+
+					<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+				</tr>
+			</table>
+					<form action="/opinion" method="get">
+						<table>
+							<tr>
+						<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+							   value="의견" max-width="50px">
+							<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+						<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+								   th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+					</td>
+					<td class="neww">
+						<div th:each="toon : ${newt2}"style=" display: inline-block;">
+							<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+							<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+							<p th:text="${toon.TOON_NAME}"></p>
+				<table>
+					<tr>
+							<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+																		 th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+
+						<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+					</tr>
+				</table>
+							<form action="/opinion" method="get">
+								<table>
+									<tr>
+								<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+									   value="의견" max-width="50px">
+									<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+								<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+																		th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+									</tr>
+								</table>
+							</form>
+						</div>
+					</td>
+					<td class="neww">
+				<div th:each="toon : ${newt3}"style=" display: inline-block;">
+					<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+					<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+					<p th:text="${toon.TOON_NAME}"></p>
+			<table>
+				<tr>
+					<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+									 th:id="${toon.TOON_NAME}" width="30px" height="30ox"></td>
+
+					<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+				</tr>
+			</table>
+					<form action="/opinion" method="get">
+						<table>
+						<tr>
+						<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+							   value="의견" max-width="50px">
+						<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+						<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+																th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+						</tr>
+						</table>
+					</form>
+				</div>
+					</td>
+				</tr>
+			<tr>
+				<td colspan="3" align="left">
+					<img src="https://ifh.cc/g/sW3p8C.png" width="80px">             <!-- hot  -->
+				</td>
+			</tr>
+			<tr>
+				<td class="hott"><img src="https://ifh.cc/g/WNPobx.png" width="80px"></td>   <!-- 네이버    -->
+				<td class="hott"><img src="https://ifh.cc/g/hlX3lB.png" width="150px"></td>    <!-- 레진  -->
+				<td class="hott"><img src="https://ifh.cc/g/ZQ9Ly4.png" width="80px"></td>    <!--  카카오  -->
+			</tr>
+			<tr>
+				<td class="hott">
+				<div th:each="toon : ${hot1}"style=" display: inline-block;">
+					<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+					<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+					<p th:text="${toon.TOON_NAME}"></p>
+		<table>
+			<tr>
+					<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+							   th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+
+				<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+			</tr>
+		</table>
+					<form action="/opinion" method="get">
+						<table>
+						<tr>
+						<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+							   value="의견" max-width="50px">
+							<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+						<td style="border-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+									 th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+						</tr>
+						</table>
+					</form>
+				</div>
+				</td>
+				<td class="hott">
+				<div th:each="toon : ${hot2}"style=" display: inline-block;">
+					<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+					<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+					<p th:text="${toon.TOON_NAME}"></p>
+				<table>
+					<tr>
+					<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+						   th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+
+						<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+					</tr>
+				</table>
+
+					<form action="/opinion" method="get">
+					<table>
+					<tr>
+						<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+							   value="의견" max-width="50px">
+							<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+						<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+								   th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+					</tr>
+					</table>
+					</form>
+				</div>
+				</td>
+				<td class="hott">
+				<div th:each="toon : ${hot3}"style=" display: inline-block;">
+					<img th:alt="${toon.getToon_category()}" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='countUpdate(this);'" width="150px" height="200px" class="toonThumb" th:id="${toon.TOON_LINK}">
+					<input type="hidden" th:value="${toon.getTOON_PLATFORM()}" name="platform">
+					<p th:text="${toon.TOON_NAME}"></p>
+				<table>
+					<tr>
+						<td style="padding: 0 10px 10px 30px"><input type="image" src="/resources/images/좋아요.png" onclick="likeUpdate(this)"
+								   th:id="${toon.TOON_NAME}" width="30px" height="30px"></td>
+
+					<td style="padding-bottom: 10px"><input type="text" th:value="${toon.TOON_LIKES}" readonly class="mol"></td>
+					</tr>
+				</table>
+
+					<form action="/opinion" method="get">
+						<table>
+						<tr>
+						<td><input type="submit" class="btn-hover color-2" style="margin: 0 20px 40px 20px"
+							   value="의견" max-width="50px">
+						<input type="hidden" th:value="${toon.getTOON_NAME()}" name="reviewButton"></td>
+
+						<td style="padding-bottom: 40px"><input type="image" src="/resources/images/좋아요2.png" onclick="favoriteUpdate(this)"
+							   th:id="${toon.TOON_NAME}" width="50px" height="40px"></td>
+						</tr>
+						</table>
+					</form>
+
+				</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<a role="tab" class="button btnPush btnOrange width" id="btn1">#로맨스</a>
+					<a role="tab" class="button btnPush btnOrange width" id="btn1">#코미디/일상</a>
+					<a role="tab" class="button btnPush btnOrange width" id="btn1">#판타지</a>
+					<a role="tab" class="button btnPush btnOrange width" id="btn1">#드라마</a>
+					<a role="tab" class="button btnPush btnOrange width" id="btn1">#스릴러</a>
+					<a role="tab" class="button btnPush btnOrange width" id="btn1">#액션</a>
+					<a role="tab" class="button btnPush btnOrange width" id="btn1">#학원</a>
+				</td>
+				<td>
+					<a role="tab" style="float: right;" type="button" class="button btnPush btnOrange searchWidth" onclick = "location.href ='/genre'">검색하기</a>
+				</td>
+			</tr>
+			<tr>
+			<!-- 실제 웹툰 리스트를 표시할 div -->
+			<td id="toonList" colspan="3">
+			</td>
+			</tr>
+			<tr>
+			<td class="fweb">
+			</td>
+			</tr>
+		</table>
+
+	<script src="/js/Script1.js"></script>
+	<script>
+		var btnClicked = false; // 태그 버튼 클릭 여부
+		var tag = ""; // 클릭한 태그 이름
+
+		function countUpdate(thumb)
+		{
+
+			const category = thumb.alt;
+
+			const user = document.getElementById("user_id").value;
+
+			const link = thumb.id;
+			const params = {  // 필요한 query params를 {} 형태에 담아준다.
+				category : category,
+				user : user,
+				link : link
+			};
+			const queryString = new URLSearchParams(params).toString();
+			fetch(`/updateCount?${queryString}`, {
+			method: 'POST'
+		})
+
+		.then(response => response.json())
+				.then(data => {
+					// 응답 데이터 처리
+					alert(data);
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
+		window.open(link, '_blank');
+		}
+		// 20231013 태그 선택 기능 추가
+		document.querySelectorAll("#btn1").forEach(function (button) {
+			button.addEventListener("click", function () {
+				// 모든 버튼 active 클래스 제거
+				document.querySelectorAll("#btn1").forEach((btn) => btn.classList.remove("btn1-active"));
+				// 누른 버튼 active 클래스 추가
+				this.classList.add("btn1-active");
+
+				var searchKeyword = this.textContent; // 버튼의 텍스트 내용을 가져옵니다.
+				btnClicked = true;
+				tag = searchKeyword;
+
+				// 선택된 태그를 사용하여 웹툰 목록을 가져오는 요청 보내기
+				fetch(`/tagByRandom?keyword=${encodeURIComponent(searchKeyword)}`)
+						.then((response) => response.json())
+						.then((data) => {
+							updateToonList(data);
+						});
+			});
+		});
+
+		function fetchRandomToonList() {
+			fetch('/tagByRandom?keyword')
+					.then((response) => response.json())
+					.then((data) => {
+						updateToonList(data);
+					});
+		}
+
+		// 웹툰 목록 업데이트 함수
+		function updateToonList(toons) {
+			var toonContainer = document.getElementById("toonList");
+			var maxToons = 9; // 최대 9개의 웹툰만 표시
+
+			// 이전 웹툰 목록 삭제
+			while (toonContainer.firstChild) {
+				toonContainer.removeChild(toonContainer.firstChild);
+			}
+
+			// 최대 9개의 웹툰만 표시
+			for (var i = 0; i < Math.min(toons.length, maxToons); i++) {
+				var div = document.createElement('div')
+				div.style.display ='inline-block'
+				div.setAttribute('class' , 'divcenter')
+				var toon = toons[i];
+				var p = document.createElement('p');
+				p.setAttribute('class', 'po')
+				var img = document.createElement('img');
+				img.setAttribute('src', toon.toon_IMAGELINK);
+				img.setAttribute('onclick', "countUpdate(this)");
+				img.setAttribute('alt', toon.toon_category.replace(/"/g, ''));
+				img.setAttribute('id', toon.toon_LINK.replace(/"/g, ''));
+				img.setAttribute('width', '180px');
+				img.setAttribute('height', '240px');
+
+				var button = document.createElement('input');
+				button.setAttribute('type', 'submit');
+				button.setAttribute('value', "의견");
+				button.setAttribute('max-width', "50px");
+				button.setAttribute('class', "btn-hover color-2 padd2");
+
+				var value = document.createElement('input');
+				value.setAttribute('type', 'hidden');
+				value.setAttribute('value', toon.toon_NAME.replace(/"/g, ''));
+				value.setAttribute('name', 'reviewButton');
+
+				var form = document.createElement('form');
+				form.setAttribute('action', '/opinion')
+				form.setAttribute('class', 'widthop')
+
+				var table1 = document.createElement('table');
+
+				var table2 = document.createElement('table');
+
+				var tr1 = document.createElement('tr');
+				var tr2 = document.createElement('tr');
+
+				var td1 = document.createElement('td');
+				var td2 = document.createElement('td');
+				var td3 = document.createElement('td');
+				var td4 = document.createElement('td');
+
+				var favorite = document.createElement('input');
+				favorite.setAttribute('type', 'image');
+				favorite.setAttribute('src', "/resources/images/좋아요2.png");
+				favorite.setAttribute('onclick',"favoriteUpdate(this)");
+				favorite.setAttribute('id', toon.toon_NAME.replace(/"/g, ''));
+				favorite.setAttribute('width', '50px');
+
+				var like = document.createElement('input');
+				like.setAttribute('type', 'image');
+				like.setAttribute('src', "/resources/images/좋아요.png");
+				like.setAttribute('onclick',"likeUpdate(this)");
+				like.setAttribute('id', toon.toon_NAME.replace(/"/g, ''));
+				like.setAttribute('width', '50px');
+				like.setAttribute('class', 'padd1');
+
+				var likes = document.createElement('input');
+				likes.setAttribute('type', 'text');
+				likes.setAttribute('class', 'mol2');
+				likes.setAttribute('value', toon.toon_LIKES);
+				likes.readOnly = true;
+
+				if (toon.toon_PLATFORM == "1") {
+					img.setAttribute('style', 'border: 6px solid green; margin: 10px;');
+				} else if (toon.toon_PLATFORM == "2") {
+					img.setAttribute('style', 'border: 6px solid red; margin: 10px;');
+				} else if (toon.toon_PLATFORM == "3") {
+					img.setAttribute('style', 'border: 6px solid yellow; margin: 10px;');
+				}
+				let toonName = toon.toon_NAME;
+
+				p.textContent = toonName;
+				div.appendChild(img);
+				div.appendChild(p)
+
+				table1.appendChild(tr1)
+				tr1.appendChild(td1)
+				td1.appendChild(like)
+				tr1.appendChild(td2)
+				td2.appendChild(likes)
+				table2.appendChild(tr2)
+				tr2.appendChild(td3)
+				td3.appendChild(value);
+				td3.appendChild(button);
+				tr2.appendChild(td4)
+				td4.appendChild(favorite)
+				div.appendChild(table1)
+				form.appendChild(table2)
+				div.appendChild(form)
+				toonContainer.appendChild(div)
+			}
+		}
+
+		fetchRandomToonList();
+
+		function toonBorder() {
+			var platformContainer = document.getElementsByName('platform');
+			var toonContainer = document.querySelectorAll('.toonThumb');
+
+			var i = 0;
+			toonContainer.forEach(function (imgs) {
+				if (platformContainer[i].value == '1') {
+					imgs.style.border = '6px solid green';
+					imgs.style.margin = '10px';
+
+				} else if (platformContainer[i].value == '2') {
+					imgs.style.border = '6px solid red';
+					imgs.style.margin = '10px';
+
+				} else if (platformContainer[i].value == '3') {
+					imgs.style.border = '6px solid yellow';
+					imgs.style.margin = '10px';
+
+				}
+				i++;
+			});
+		}
+
+		toonBorder();
+
+		var userId = document.getElementById('user_id').value;
+		if (userId === '0000') {
+			var favoriteSection = document.querySelector('[class="a"]');
+			if (favoriteSection) {
+				favoriteSection.style.display = 'none';
+			}
+		}
+
+		var userId = document.getElementById('user_id').value;
+		if (userId === '0000') {
+			var favoriteSection = document.querySelector('[class="b"]');
+			if (favoriteSection) {
+				favoriteSection.style.display = 'none';
+			}
+		}
+
+		var userId = document.getElementById('user_id').value;
+		if (userId === '0000') {
+			var favoriteSection = document.querySelector('[class="c"]');
+			if (favoriteSection) {
+				favoriteSection.style.display = 'none';
+			}
+		}
+
+
+		function favoriteUpdate(favorite)
+		{
+			const toon_name = favorite.id;
+
+			fetch(`/favorites?ToonName=${toon_name}`, {method:'GET'})
+					.then(response => response.json())
+					.then(data => {})
+					.catch(error => {console.error(error)})
+		}
+		function likeUpdate(like)
+		{
+			const toon_name = like.id;
+
+			fetch(`/likes?ToonName=${toon_name}`, {method:'GET'})
+					.then(response => response.json())
+					.then(data => {})
+					.catch(error => {console.error(error)})
+		}
+	</script>
+
+</body>
+</html>

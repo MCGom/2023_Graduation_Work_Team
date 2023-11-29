@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+	<link rel="stylesheet" href="/css/menu.css">
+	<link rel="stylesheet" href="/css/btnup.css">
+	<link rel="stylesheet" href="/css/s-btn2.css">
+	<link rel="stylesheet"  href="/css/s-btn1.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+	table, td{
+		border: 1px solid; border-collapse: collapse;
+	}
+	tr, td{
+		vertical-align : top;
+	}
+	table{
+		width: 100%;
+		border-left: hidden;
+		border-right: hidden;
+	}
+	.toon{
+		height: 200px;
+	}
+
+	.write{
+		height: 10px;
+		padding: 10px 0 30px 0;
+	}
+	p {
+		display: flex;
+		align-items: center;
+	}
+
+	.line1 {
+		border-bottom: dashed;
+		margin: 10px 0 10px 0;
+	}
+
+	.line2 {
+		padding: 10px;
+		border-top: hidden;
+		border-bottom: hidden;
+
+	}
+	.wa {
+		font-style: italic;
+		font-weight: bold;
+		background-color: #F7691C;
+		padding: 26px 0 30px 3px;
+		position: relative;
+		bottom: 35px;
+	}
+	/* 이미지를 가로로 정렬하기 위한 스타일 */
+	.favorite-webtoons li {
+		display: inline-block; /* 이미지를 가로로 나란히 표시 */
+		margin-right: 10px; /* 이미지 사이의 간격을 조절 */
+	}
+
+	/* 이미지 앞의 점을 숨기기 위한 스타일 */
+	.favorite-webtoons li a {
+		text-decoration: none; /* 하이퍼링크 텍스트 스타일 제거 */
+	}
+	.toon-review {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.nickname{
+		background: #fff;
+		color: #000;
+		border:none;
+		position:relative;
+		height:60px;
+		width: 100%;
+		font-size:1.0em;
+		padding:0 5px 0 5px;
+		cursor:pointer;
+		transition:800ms ease all;
+		outline:none;
+	}
+	.nickname:hover{
+		background: #F7691C;
+		color: #fff;
+	}
+	.nickname:before .nickname:after{
+		content:'';
+		position:absolute;
+		top:0;
+		right:0;
+		height:2px;
+		width:0;
+		background: #F7691C;
+		transition:400ms ease all;
+	}
+	.nickname:after{
+		right:inherit;
+		top:inherit;
+		left:0;
+		bottom:0;
+	}
+	.nickname:hover:before .nickname:hover:after{
+		width:100%;
+		transition:800ms ease all;
+	}
+	.textbox {
+		margin: 2em;
+		padding: 2em;
+		border-top: solid 5px #F7691C;
+		border-bottom:solid 5px #F7691C;
+		border-right: hidden;
+		border-left: hidden;
+		background-color: #F3F4F3;
+	}
+	.hidupdo {
+		border-bottom: hidden;
+		border-top: hidden;
+	}
+	.hiddo {
+		border-bottom: hidden;
+	}
+
+	
+</style>
+
+</head>
+<body>
+<form method="post" action="/user/mypage">
+<div style="text-align : center;">
+<img src="/resources/images/logo.jpg" width="300px", height="80px" >
+<ul id="out">
+	<li>
+		<a href="#">메인메뉴</a>
+		<ul>
+			<li><a href="/main">메인메뉴</a></li>
+			<li><a href="/user/update">개인정보수정</a></li>
+			<li><a href="/home">로그아웃</a></li>
+		</ul>
+	</li>
+</ul>
+</div>
+<table>
+<tr class="line1">
+<td style="font-size: 30px"><span id="id" th:text="${currentUser.USER_NICKNAME}"></span></td>
+</tr>
+<tr>
+	<td class="write" th:if="${currentUser.USER_ID == memoOwnerId}">
+		<label class="wa">
+			소개
+		</label>
+		<textarea name="memoText" th:text="${memoText}" style="width:95%; height: 75px;"></textarea>
+		<button class="btn_s" data-text="저장" style="float:right;"></button>
+	</td>
+	<td class="write" th:unless="${currentUser.USER_ID == memoOwnerId}">
+		<label class="wa">
+			소개
+		</label>
+		<textarea name="memoText" th:text="${memoText}" style="width:95%; height: 75px;" readonly></textarea>
+	</td>
+</tr>
+</table>
+</form>
+<table>
+<tr>
+<td class="hiddo">
+	<p><img src="/resources/images/dg.png" width="50px" , height="50px">즐겨찾기목록</p>
+</td>
+</tr>
+	<tr>
+		<td>
+			<div class="favorite-webtoons">
+				<ul>
+					<li th:each="favoriteToon : ${favoriteToons}">
+						<a th:href="${favoriteToon.TOON_LINK}">
+							<img th:src="${favoriteToon.TOON_IMAGELINK}" width="150px" height="200px">
+						</a>
+					</li>
+				</ul>
+				<p th:if="${#lists.isEmpty(favoriteToons)}">즐겨찾기한 웹툰이 없습니다.</p>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<p><img src="/resources/images/unnamed.png" width="50px" , height="50px">의견목록</p>
+		</td>
+	</tr>
+	<tr>
+		<td class="hidupdo">
+			<div class="toon-review">
+				<a th:each="toonRv : ${toonR}">
+					<div class="review-item">
+						<form action="/opinion">
+						<input type="hidden" th:value="${toonRv.TOON_NAME}" name="reviewButton">
+						<input th:value="${toonRv.TOON_NAME}" type="submit" class="nickname"><br>
+						<input th:value="${toonRv.Review_content}" readonly class="textbox">
+						</form>
+					</div>
+				</a>
+			</div>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.toonplus.recommand.dao.ToonRecommandMapper">
+
+    <select id="selectToonRecommandByUserId" parameterType="string" resultType="com.toonplus.recommand.dto.ToonRecommand">
+        SELECT  * FROM toon_count
+        WHERE USER_ID=#{USER_ID}
+    </select>
+
+    <update id="updateToonCount" parameterType="string">
+        UPDATE toon_count
+        SET ${Genre}=${Genre} + 1
+        WHERE USER_ID=#{USER_ID}
+    </update>
+</mapper>

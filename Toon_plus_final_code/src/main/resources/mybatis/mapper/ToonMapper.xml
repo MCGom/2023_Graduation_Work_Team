@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.toonplus.toon.dao.ToonMapper">
+
+
+	<select id="selectToon" resultType="com.toonplus.toon.dto.Toon">
+		SELECT * FROM toon_table
+	</select>
+	
+	<select id="newToon1" resultType="com.toonplus.toon.dto.Toon">
+		SELECT * FROM toon_table
+		WHERE TOON_PLATFORM = 1 AND TOON_NEWUPDATE = 1;
+	</select>
+	
+	<select id="newToon2" resultType="com.toonplus.toon.dto.Toon">
+		SELECT * FROM toon_table
+		WHERE TOON_PLATFORM = 2 AND TOON_NEWUPDATE = 1;
+	</select>
+	
+	<select id="newToon3" resultType="com.toonplus.toon.dto.Toon">
+		SELECT * FROM toon_table
+		WHERE TOON_PLATFORM = 3 AND TOON_NEWUPDATE = 1;
+	</select>
+
+	<select id="upToon1" resultType="com.toonplus.toon.dto.Toon">
+		SELECT * FROM toon_table
+		WHERE TOON_PLATFORM = 1 AND TOON_UPDATE = 1;
+	</select>
+
+	<select id="upToon2" resultType="com.toonplus.toon.dto.Toon">
+		SELECT * FROM toon_table
+		WHERE TOON_PLATFORM = 2 AND TOON_UPDATE = 1;
+	</select>
+
+	<select id="upToon3" resultType="com.toonplus.toon.dto.Toon">
+		SELECT * FROM toon_table
+		WHERE TOON_PLATFORM = 3 AND TOON_UPDATE = 1;
+	</select>
+	
+	<select id="hotToon1" resultType="com.toonplus.toon.dto.Toon">
+		SELECT * FROM toon_table
+		WHERE TOON_PLATFORM = 1;
+	</select>
+	
+	<select id="hotToon2" resultType="com.toonplus.toon.dto.Toon">
+		SELECT * FROM toon_table
+		WHERE TOON_PLATFORM = 2;
+	</select>
+	
+	<select id="hotToon3" resultType="com.toonplus.toon.dto.Toon">
+		SELECT * FROM toon_table
+		WHERE TOON_PLATFORM = 3;
+	</select>
+
+	<select id="selectToonByName" resultType="com.toonplus.toon.dto.Toon">
+		SELECT * FROM toon_table
+		ORDER BY Toon_name ASC
+	</select>
+
+	<select id="selectKeywordToon" parameterType="string" resultType="com.toonplus.toon.dto.Toon">
+		SELECT *
+		FROM toon_table
+		WHERE Toon_name LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+
+	<select id="tagKeywordToon" parameterType="string" resultType="com.toonplus.toon.dto.Toon">
+		SELECT *
+		FROM toon_table
+		WHERE Toon_category LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+
+	<select id="tagKeywordToonByName" parameterType="string" resultType="com.toonplus.toon.dto.Toon">
+		SELECT *
+		FROM toon_table
+		WHERE Toon_category LIKE CONCAT('%', #{keyword}, '%')
+		ORDER BY Toon_name ASC
+	</select>
+
+	<select id="toonReview" resultType="com.toonplus.toon.dto.Toon">
+		SELECT Review_content, TOON_NAME, User_id FROM toon_review WHERE CONCAT(';', User_id, ';') LIKE CONCAT('%;', #{USER_ID}, ';%')
+	</select>
+
+	<select id="selectToonByTitle" resultType="com.toonplus.toon.dto.Toon">
+		SELECT *
+		FROM toon_table
+		WHERE TOON_NAME = #{webtoonTitle}
+	</select>
+
+	<select id="tagKeywordToonByLikes" resultType="com.toonplus.toon.dto.Toon">
+		SELECT *
+		FROM toon_table
+		WHERE Toon_category LIKE CONCAT('%', #{keyword}, '%')
+		ORDER BY TOON_LIKES DESC;
+	</select>
+
+	<!-- 좋아요순으로 전체 조회 -->
+	<select id="selectToonByLikes" resultType="com.toonplus.toon.dto.Toon">
+		SELECT *
+		FROM toon_table
+		ORDER BY TOON_LIKES DESC;
+	</select>
+
+
+
+
+
+</mapper>

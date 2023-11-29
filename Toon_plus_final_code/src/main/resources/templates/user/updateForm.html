@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="/css/signup.css">
+  <link rel="stylesheet" type="text/css" href="/css/s-btn2.css">
+
+  <script>
+
+    function checkEmail() {  //이메일 유효성 검사
+      var emailValue = $('#USER_MAIL').val();
+
+      if (!isValidEmail(emailValue)) {
+        alert('올바른 이메일 형식이 아닙니다.');  //일반적인 이메일 형식이 아닐 경우 메시지 출력
+        return;
+      }
+
+      $.ajax({  //이메일 중복여부 검사
+        type : 'POST',
+        url :  '/user/checkEmail',
+        data : { USER_MAIL : $('#USER_MAIL').val()},
+        dataType : "text",
+        async : false,
+        success : function(data) {
+          if (data == 'true') {
+            alert('사용 가능한 이메일입니다.');
+            $("#checkEmailVal").val("Y");
+            $('#USER_MAIL').attr("disabled",true);
+          } else {
+            alert('이미 사용하고 있는 이메일입니다.');
+            $("#checkEmailVal").val("N");
+          }
+        }, error : function (){
+          alert("에러가 발생하였습니다.");
+        }
+      });
+    }
+
+    function checkNickName() {  //닉네임 유효성 검사
+      var NickNameValue = $('#USER_NICKNAME').val();
+      if (!isValidNickname(NickNameValue)) {
+        alert('올바른 닉네임 형식이 아닙니다.');  //공백, 한글 모음, 특수문자 입력시 메시지 출력
+        return;
+      }
+
+      $.ajax({  //닉네임 중복여부 검사
+        type : 'POST',
+        url :  '/user/checkNickName',
+        data : { USER_NICKNAME : $('#USER_NICKNAME').val()},
+        dataType : "text",
+        async : false,
+        success : function(data) {
+          if (data == 'true') {
+            alert('사용 가능한 닉네임입니다.');
+            $("#checkNickNameVal").val("Y");
+            $('#USER_NICKNAME').attr("disabled",true);
+          } else {
+            alert('이미 사용하고 있는 닉네임입니다.');
+            $("#checkNickNameVal").val("N");
+          }
+        }, error : function (){
+          alert("에러가 발생하였습니다.");
+        }
+      });
+    }
+
+    function checkAction(){
+      var frmSubmit = document.frmSubmit;
+      var PasswordValue = $('#USER_PASSWORD').val();
+      var NameValue = $('#USER_NAME').val();
+      var NickNameValue = $('#USER_NICKNAME').val();
+      var EmailValue = $('#USER_MAIL').val();
+      var GenreValue1 = $('#USER_PICK1').val();
+      var GenreValue2 = $('#USER_PICK2').val();
+      var GenreValue3 = $('#USER_PICK3').val();
+      var MypageValue = $('input[name="USER_MYPAGE"]:checked').val();
+
+      if (EmailValue.trim() === '') {
+        alert('이메일을 입력하세요.');  //이메일을 입력하지 않았을 경우 메시지 출력
+        return;
+      }
+
+      if($("#checkEmailVal").val() == 'N') {
+        alert('이메일 중복 확인을 해주세요.');  //이메일 중복 확인 버튼을 누르지 않았을 경우 메시지 출력
+        return;
+      }
+
+      if (PasswordValue.trim() === '') {
+        alert('비밀번호를 입력하세요.');  //비밀번호를 입력하지 않았을 경우 메시지 출력
+        return;
+      }
+
+      if($("#USER_PASSWORD").val() != $("#USER_PASSWORD2").val()) {
+        alert('비밀번호가 일치하지 않습니다.');  //비밀번호와 비밀번호 확인 값이 일치하지 않을 경우 메시지 출력
+        return;
+      }
+
+      if (NameValue.trim() === '') {
+        alert('이름을 입력하세요.');  //이름을 입력하지 않았을 경우 메시지 출력
+        return;
+      }
+
+      if (NickNameValue.trim() === '') {
+        alert('닉네임을 입력하세요.');  //닉네임을 입력하지 않았을 경우 메시지 출력
+        return;
+      }
+
+      if($("#checkNickNameVal").val() == 'N') {
+        alert('닉네임 중복 확인을 해주세요.');  //닉네임 중복 확인 버튼을 누르지 않았을 경우 메시지 출력
+        return;
+      }
+
+      if (GenreValue1 === 'Not selected' || GenreValue2 === 'Not selected' || GenreValue3 === 'Not selected') {
+        alert('3개의 선호 장르를 선택해주세요.');  //3개의 장르를 선택하지 않았을 경우 메시지 출력
+        return;
+      }
+
+      if (!MypageValue) {
+        alert('My 페이지 공개 여부를 선택해주세요.');  //My 페이지 공개 여부를 선택하지 않았을 경우 메시지 출력
+        return;
+      }
+
+      $('#USER_ID').attr("disabled",false);  //ID, 이메일, 닉네임이 중복일 경우 수정할 수 없음
+      $('#USER_MAIL').attr("disabled",false);
+      $('#USER_NICKNAME').attr("disabled",false);
+
+      frmSubmit.submit();
+      return false;
+    }
+
+    function isValidEmail(email) {  //이메일 유효성 검사 함수
+      var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailRegex.test(email);
+    }
+
+    function isValidNickname(nickname) {  //닉네임 유효성 검사 함수
+      var NicknameRegex = /^[a-zA-z0-9a-hehga-huh]+$/;
+      return NicknameRegex.test(nickname)
+    }
+
+  </script>
+
+</head>
+<body>
+<form action="update" method="post" name="frmSubmit">
+  <input type="hidden" id="checkEmailVal" value="N"/>
+  <input type="hidden" id="checkNickNameVal" value="N"/>
+  <div style="text-align: center;">
+    <img src="/resources/images/logo.jpg" width="300px" height="80px" >
+  </div>
+  <table align="center">
+    <tr><td colspan="2" align="center" height="40"><b>회원 정보 수정</b></td></tr>
+    <tr>
+      <td class="bdView1">ID</td>
+      <td class="bdView2"><input type="text" name="USER_ID" id="USER_ID" disabled="true" th:value="${user.USER_ID}"></td>
+    </tr>
+    <tr>
+      <td class="bdView1">Email</td>
+      <td class="bdView2"><input type="email" name="USER_MAIL" id="USER_MAIL" value=""></td>
+      <a role="tab" class="button btnPush btnOrange widthemail" id="btn1" onclick="javascript:checkEmail();">중복 확인</a>
+    </tr>
+    <tr>
+      <td class="bdView1">비밀번호</td>
+      <td class="bdView2"><input type="password" name="USER_PASSWORD" id="USER_PASSWORD"></td>
+    </tr>
+    <tr>
+      <td class="bdView1">비밀번호 (확인)</td>
+      <td class="bdView2"><input type="password" name="USER_PASSWORD2" id="USER_PASSWORD2"></td>
+    </tr>
+    <tr>
+      <td class="bdView1">이름</td>
+      <td class="bdView2"><input type="text" name="USER_NAME" id="USER_NAME" required value=""></td>
+    </tr>
+    <tr>
+      <td class="bdView1">닉네임</td>
+      <td class="bdView2"><input type="text" name="USER_NICKNAME" id="USER_NICKNAME" value=""></td>
+        <a role="tab" class="button btnPush btnOrange widthnick" id="btn1" onclick="javascript:checkNickName();">중복 확인</a>
+
+      </tr>
+    <tr>
+      <td class="bdView1">선호 장르</td>
+      <td class="bdView2">
+        <select name="USER_PICK1" id="USER_PICK1" required>
+          <option value="#로맨스">#로맨스</option>
+          <option value="#판타지">#판타지</option>
+          <option value="#액션">#액션</option>
+          <option value="#학원">#학원</option>
+          <option value="#드라마">#드라마</option>
+          <option value="#코미디/일상">#코미디/일상</option>
+          <option value="#스릴러">#스릴러</option>
+        </select>
+        <select name="USER_PICK2" id="USER_PICK2">
+          <option value="#로맨스">#로맨스</option>
+          <option value="#판타지">#판타지</option>
+          <option value="#액션">#액션</option>
+          <option value="#학원">#학원</option>
+          <option value="#드라마">#드라마</option>
+          <option value="#코미디/일상">#코미디/일상</option>
+          <option value="#스릴러">#스릴러</option>
+        </select>
+        <select name="USER_PICK3" id="USER_PICK3">
+          <option value="#로맨스">#로맨스</option>
+          <option value="#판타지">#판타지</option>
+          <option value="#액션">#액션</option>
+          <option value="#학원">#학원</option>
+          <option value="#드라마">#드라마</option>
+          <option value="#코미디/일상">#코미디/일상</option>
+          <option value="#스릴러">#스릴러</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td class="bdView1">마이 페이지 공개 여부</td>
+      <td class="bdView2">
+        <input type="radio" name="USER_MYPAGE" id="USER_MYPAGE1" value="Y" <c:if test="${user.USER_MYPAGE eq 'Y'}"></c:if> 공개
+        <input type="radio" name="USER_MYPAGE" id="USER_MYPAGE2" value="N" <c:if test="${user.USER_MYPAGE eq 'N'}"></c:if> 비공개
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        <a role="tab" class="button btnPush btnOrange widthbot" id="btn1" onclick="javascript:checkAction();">수정 완료</a>
+        <a role="tab" class="button btnPush btnOrange widthbot" id="btn1" onclick="myFunction()">초기화</a>
+      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

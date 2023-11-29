@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.toonplus.review.dao.ToonReviewMapper">
+
+    <select id="selectToonReviewByName" parameterType="string" resultType="com.toonplus.review.dto.ToonReview">
+        SELECT  TOON_NAME, USER_ID, REVIEW_CONTENT FROM toon_review
+        WHERE TOON_NAME=#{TOON_NAME}
+    </select>
+
+    <update id="updateToonReview" parameterType="string">
+        UPDATE toon_review
+        SET REVIEW_CONTENT=#{REVIEW_CONTENT},
+            USER_ID=#{USER_ID}
+        WHERE TOON_NAME=#{TOON_NAME}
+    </update>
+
+</mapper>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+        .goupbtn {
+            top: 92%;
+            left: 96%;
+            width: 50px;
+            height: 50px;
+            border-radius: 80%;
+            background-color: #ffffff;
+            border: red 3px solid;
+            position: fixed;
+            z-index: 2;
+        }	
+         .toon-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 150px; /* 이미지 너비 */
+            text-align: center;
+            margin: 10px; /* 이미지 간격 조절 */
+        }
+
+        .toon-item img {
+            width: 100%;
+            height: auto;
+        }
+
+        .likes {
+            font-weight: bold;
+        }
+
+        
+
+        /* 좋아요(즐겨찾기) 버튼 스타일 */
+        .favorite-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .favorited {
+            background-color: #ff0000; /* 즐겨찾기가 활성화된 경우의 스타일 */
+        }
+        
+        .tooltip {
+            visibility: hidden;
+            width: 120px;
+            background-color: #0000;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; 
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+
+        .tooltip-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+		.webtoon {
+			width: 150px;
+			height: 200px;
+			border: solid black;
+		}
+		.webname {
+			width: 70px;
+			height: 30px;
+		}
+		/* 20231014추가 버튼이 클릭되었을때 활성화 디자인으로 변경 */
+		.btn1-active {
+			background-color: #e0e0e0;
+			border: 2px solid #000;
+		}
+	</style>
+</head>
+<body>
+	<form method="post">
+		<input class="goupbtn" type="button" value="Top" onclick="clickme()"></div>
+		<script>
+			function clickme() {
+				window.scrollTo(0, 0);
+			}
+		</script>
+		<div style="text-align : center;">
+			<img src="/resources/images/logo.jpg" width="300px" , height="80px">
+			<select style="float : right;" onchange="if(this.value) location.href=(this.value);">
+				<option value="">메뉴</option>
+				<option value="user/mypage">마이페이지</option>
+				<option value="user/update">개인정보 수정</option>
+				<option value="home">로그아웃</option>
+			</select>
+		</div>
+		<div>
+			<a>회원정보 기반 추천</a>
+		</div>
+
+		<div style="white-space: nowrap; width: 100%; overflow-x: auto;">
+			<div th:each="toon : ${toons}" style="display: inline-block;">
+				<img th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='goToLink(\'' + ${toon.TOON_LINK} + '\');'" width="150px" height="200px">
+				<p th:text="${toon.TOON_NAME}"></p>
+			<div class=".toon-item">
+			<button class="favorite-button" onclick="toggleFavorite(this)">즐찾</button>
+                    <p class="likes" th:text="${toon.TOON_LIKES}"></p>
+			</div>
+		</div>
+		<div>
+			<div>
+				<a>new</a>
+			</div>
+
+			<div style="float:left; padding-right:50px;">
+				<div>
+					<a>네이버</a>
+				</div>
+				<div th:each="toon : ${newt1}"style=" display: inline-block;">
+					<img th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='goToLink(\'' + ${toon.TOON_LINK} + '\');'" width="150px" height="200px">
+				</div>
+			</div>
+			<div style="float: left; padding-right: 50px;">
+				<div>
+					<a>레진</a>
+				</div>
+				<div th:each="toon : ${newt2}"style=" display: inline-block;">
+					<img th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='goToLink(\'' + ${toon.TOON_LINK} + '\');'" width="150px" height="200px">
+				</div>
+			</div>
+			<div style="float: left;">
+				<div>
+					<a>카카오</a>
+				</div>
+				<div th:each="toon : ${newt3}"style=" display: inline-block;">
+					<img th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='goToLink(\'' + ${toon.TOON_LINK} + '\');'" width="150px" height="200px">
+				</div>
+			</div>
+		</div>
+		<div>
+			<div>
+				<a>hot</a>
+			</div>
+
+			<div style="float:left; padding-right:50px;">
+				<div>
+					<a>네이버</a>
+				</div>
+				<div th:each="toon : ${hot1}"style=" display: inline-block;">
+					<img th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='goToLink(\'' + ${toon.TOON_LINK} + '\');'" width="150px" height="200px">
+				</div>
+			</div>
+			<div style="float: left; padding-right: 50px;">
+				<div>
+					<a>레진</a>
+				</div>
+				<div th:each="toon : ${hot2}"style=" display: inline-block;">
+					<img th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='goToLink(\'' + ${toon.TOON_LINK} + '\');'" width="150px" height="200px">
+				</div>
+			</div>
+			<div style="float: left;">
+				<div>
+					<a>카카오</a>
+				</div>
+				<div th:each="toon : ${hot3}"style=" display: inline-block;">
+					<img th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='goToLink(\'' + ${toon.TOON_LINK} + '\');'" width="150px" height="200px">
+				</div>
+			</div>
+		</div>
+		<div>
+					<a>웹툰</a>
+					<button type="button" class="btn1">로맨스</button>
+					<button type="button" class="btn1">일상</button>
+					<button type="button" class="btn1">판타지</button>
+					<button type="button" class="btn1">드라마</button>
+					<button type="button" class="btn1">개그</button>
+					<button type="button" class="btn1">액션</button>
+					<button type="button" class="btn1">사극</button>
+		</div>
+			<th:block th:each="toon : ${toons}">
+				<img class="toon-data" th:src="${toon.TOON_IMAGELINK}" th:attr="onclick='goToLink(\'' + ${toon.TOON_LINK} + '\');'" width="150px" height="200px">
+			</th:block>
+
+			<!-- 실제 웹툰 리스트를 표시할 div -->
+			<div id="toonList"></div>
+			<div class="webname">
+				<a>1</a>
+			</div>
+			<div>
+
+					<button style="float:right;"type="button" role="tab" onclick = "location.href ='/genre'">장르별 웹툰 보러가기</button>
+			</div>
+		</div>
+	</form>
+	<script>
+		function goToLink(link) {
+			window.location.href = link;
+		}
+
+		var btnClicked = false; //태그 버튼 클릭한 유무
+		var tag = "";           //클릭했던 태그 이름
+		var selectedOption = "랜덤정렬";   //선택한 selectbox
+
+		function goToLink(link) {
+			window.location.href = link;
+		}
+	</script>
+</body>
+</html>

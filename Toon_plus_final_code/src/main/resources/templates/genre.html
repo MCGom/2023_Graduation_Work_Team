@@ -1,0 +1,744 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="/css/s-btn2.css">
+	<link rel="stylesheet" type="text/css" href="/css/menu.css">
+	<link rel="stylesheet" type="text/css" href="/css/btnup.css">
+	<link rel="stylesheet" type="text/css" href="/css/searchBTN.css">
+	<link rel="stylesheet" type="text/css" href="/css/opbtn.css">
+	<style>
+		tr, td{
+			vertical-align : top;
+		}
+		table{
+			width: 100%;
+		}
+		.widthop {
+			width: 30px;
+		}
+		.tag{
+			height: 200px;
+		}
+		.padd1 {
+			margin: 15px 20px 0 25px;
+		}
+		.padd2 {
+			margin: 0 20px 20px 20px;
+		}
+		.search{
+			position: relative;
+			width: 94%;
+			height: 50px;
+			margin: 10px 0 20px 0;
+		}
+
+		.widthgood {
+			width: 30px;
+			height: 30px;
+		}
+		.input1 {
+			width: 100%;
+			height: 50px;
+			border: 1px solid #bbb;
+			border-radius: 8px;
+			padding: 10px 12px;
+			font-size: 24px;
+		}
+
+		.sh{
+			position : absolute;
+			width: 50px;
+			height: 50px;
+			top: 17px;
+			right: -15px;
+			margin: 0;
+		}
+		.webtoon {
+			width: 150px;
+			height: 200px;
+			border: solid black;
+		}
+		.webname {
+			width: 70px;
+			height: 30px;
+		}
+		/* 20231014추가 버튼이 클릭되었을때 활성화 디자인으로 변경 */
+		.btn1-active {
+			background-color: #e0e0e0;
+			border: 2px solid #000;
+		}
+		/* 좋아요(즐겨찾기) 버튼 스타일 */
+		.a-tag {
+			margin-left: 360px; /* 원하는 마진 값으로 변경 가능 */
+		}
+		.btn-margin{
+			margin-left: 100px; /* 원하는 마진 값으로 변경 가능 */
+		}
+
+		.pcenter {
+			text-align: center;
+		}
+
+		.mol {
+			margin: 20px 30px 0 0;
+			width: 40px;
+			text-align: right;
+			border: hidden;
+			font-size: 20px;
+			font-weight: 300;
+
+		}
+
+	</style>
+</head>
+<body>
+<form method="post" onsubmit="return false;">
+	<input type="hidden" th:value="${user.getUSER_ID()}" id="user_id">
+	<input class="goupbtn" type="button" value="Top" onclick="clickme()"></div>
+	<script>
+		function clickme(){
+			window.scrollTo(0,0);
+		}
+	</script>
+	<div style="text-align : center;">
+		<img src="/resources/images/logo.jpg" width="300px" , height="80px">
+		<ul id="out">
+			<li>
+				<a href="#">메인메뉴</a>
+				<ul>
+					<li th:unless="${user.getUSER_ID() == '0000'}"><a href="/user/mypage">내정보</a></li>
+					<li th:unless="${user.getUSER_ID() == '0000'}"><a href="/user/update">개인정보수정</a> </li>
+					<li th:unless="${user.getUSER_ID() == '0000'}"><a href="/home">로그아웃</a></li>
+					<li th:if="${user.getUSER_ID() == '0000'}"><a href="/user/signup">회원가입</a></li>
+					<li th:if="${user.getUSER_ID() == '0000'}"><a href="/user/login">로그인</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="search">
+		<input type="text" placeholder="웹툰 검색" class="input1">
+		<img class="sh" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+	</div>
+	<table>
+		<tr>
+			<td>
+				<!--    <button type="button" class="btn-all btn1-active">전체</button>
+                        <button type="button" class="btn1">로맨스</button>
+                        <button type="button" class="btn1">일상</button>
+                        <button type="button" class="btn1">판타지</button>
+                        <button type="button" class="btn1">드라마</button>
+                        <button type="button" class="btn1">개그</button>
+                        <button type="button" class="btn1">액션</button>
+                        <button type="button" class="btn1">사극</button>  -->
+				<a role="tab" class="button btnPush btnOrange width btn1-active" id="btn-all">전체</a>
+				<a role="tab" class="button btnPush btnOrange width" id="btn1">로맨스</a>
+				<a role="tab" class="button btnPush btnOrange width" id="btn1">코미디/일상</a>
+				<a role="tab" class="button btnPush btnOrange width" id="btn1">판타지</a>
+				<a role="tab" class="button btnPush btnOrange width" id="btn1">드라마</a>
+				<a role="tab" class="button btnPush btnOrange width" id="btn1">스릴러</a>
+				<a role="tab" class="button btnPush btnOrange width" id="btn1">액션</a>
+				<a role="tab" class="button btnPush btnOrange width" id="btn1">학원</a>
+			</td>
+			<td id="selectbox" class="dm" rowspan="2">
+				<div class="main">
+					<div class="tabs">
+						<div id="randomButton" class="tab" data-tab-target="#tab1">
+							<p>랜덤</p>
+						</div>
+						<div id="nameButton" class="tab" data-tab-target="#tab2">
+							<p>이름</p>
+						</div>
+						<div id="likeButton" class="tab" data-tab-target="#tab3">
+							<p>좋아요</p>
+						</div>
+					</div>
+				</div>
+				<div class="content">
+					<div id="tab1" data-tab-content class="items active">
+						<option value=""></option>
+					</div>
+					<div id="tab2" data-tab-content class="items">
+					</div>
+					<div id="tab3" data-tab-content class="items">
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr><td>
+			<a role="tab" class="button btnPush btnOrange width btn1-active btn2" id="all_btn">전체</a>
+			<a role="tab" class="button btnPush btnOrange width btn2" id="naver_btn">네이버</a>
+			<a role="tab" class="button btnPush btnOrange width btn2" id="kakao_btn">카카오</a>
+			<a role="tab" class="button btnPush btnOrange width btn2" id="legin_btn">레진</a>
+			<!--    <button type="button" id="naver_btn" class="btn2 btn-margin">네이버</button>
+                <button type="button" id="kakao_btn" class="btn2">카카오</button>
+                <button type="button" id="legin_btn" class="btn2">레진</button>
+                <button type="button" id="all_btn" class="btn2 btn1-active">전체</button>      -->
+		</td>
+		</tr>
+	</table>
+<!--	<div>
+		<a class="a-tag">플랫폼 선택</a>
+		<select id="selectbox" style="float : right;">
+			<option value="">랜덤정렬</option>
+			<option value="">이름순정렬</option>
+			<option value="">좋아요순정렬</option>
+		</select>
+	</div>     -->
+
+	<!-- Thymeleaf로 받아온 데이터를 임시로 저장하는 th:block -->
+	<th:block th:each="toon : ${toons}">
+		<span class="toon-data" th:data-image="${toon.TOON_IMAGELINK}" th:data-link="${toon.TOON_LINK}" th:data-platform="${toon.TOON_PLATFORM}" th:data-name="${toon.TOON_NAME}" th:data-like="${toon.TOON_LIKES}"th:data-category="${toon.Toon_category}"> </span>
+	</th:block>
+
+	<!-- 실제 웹툰 리스트를 표시할 div -->
+	<table>
+		<tr>
+			<td id="toonList"></td>
+		</tr>
+	</table>
+	<div class="webname">
+		<a></a>
+	</div>
+</form>
+<script>
+	var btnClicked = false; //태그 버튼 클릭한 유무
+	var tag = "";           //클릭했던 태그 이름
+	var selectedOption = "랜덤정렬";   //선택한 selectbox
+	var selectCompany = "전체";
+
+	function countUpdate(thumb)
+	{
+
+		const category = thumb.alt;
+
+		const user = document.getElementById("user_id").value;
+
+		const link = thumb.id;
+		const params = {  // 필요한 query params를 {} 형태에 담아준다.
+			category : category,
+			user : user,
+			link : link
+		};
+		const queryString = new URLSearchParams(params).toString();
+		fetch(`/updateCount?${queryString}`, {
+			method: 'POST'
+		})
+
+				.then(response => response.json())
+				.then(data => {
+					// 응답 데이터 처리
+					alert(data);
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
+		window.open(link, '_blank');
+	}
+		// 엔터 키 눌렀을 때 검색기능 추가
+	document.querySelector("input[placeholder='웹툰 검색']").addEventListener("keypress", function(event) {
+		// 엔터 키가 눌렸는지 확인
+		if (event.key === "Enter") {
+			// 엔터 키가 눌렸다면 검색 버튼의 클릭 이벤트를 트리거
+			document.querySelector(".sh").click();
+		}
+	});
+
+	document.querySelector(".sh").addEventListener("click", function() {
+		// 모든 버튼 active클래스 제거
+		document.querySelectorAll("#btn1").forEach(btn => btn.classList.remove("btn1-active"));
+		document.querySelectorAll(".btn2").forEach(btn => btn.classList.remove("btn1-active"));
+		document.querySelector("#btn-all").classList.add("btn1-active");
+		document.querySelector("#all_btn").classList.add("btn1-active");
+		btnClicked = false;
+		selectCompany = "전체";
+		console.log('클릭');
+		var searchKeyword = document.querySelector("input[placeholder='웹툰 검색']").value;
+		console.log("searchKeyword:" + searchKeyword);
+		fetch('/searchToonByRandom?keyword=' + searchKeyword)
+				.then(response => response.json())
+				.then(data => {
+					console.log("data:", data);  // 객체 내용 출력
+					updateToonList(data);
+				});
+	});
+
+	//20231030 전체 버튼 기능 추가
+	document.querySelector("#btn-all").addEventListener("click", function() {
+		// 모든 버튼 active클래스 제거
+		document.querySelectorAll("#btn1").forEach(btn => btn.classList.remove("btn1-active"));
+		// 누른 버튼 active클레스 추가
+		this.classList.add("btn1-active");
+		btnClicked = false;
+
+		if(selectedOption === "이름순정렬" && !btnClicked) {
+			console.log("전체 "+selectedOption);
+			fetch('/selectToonByName')
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);});
+		}else if(selectedOption === "랜덤정렬" && !btnClicked) {
+			console.log("전체 "+selectedOption);
+			fetch('/selectToon')
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}else if(selectedOption === "좋아요순정렬" && !btnClicked) {
+			console.log("전체 "+selectedOption);
+			fetch('/selectToonByLikes')
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}
+	});
+	//20231030 추가 네이버 버튼을 누를경우
+	document.getElementById("naver_btn").addEventListener("click", function() {
+		selectCompany = "네이버";
+		document.querySelectorAll(".btn2").forEach(btn => btn.classList.remove("btn1-active"));
+		this.classList.add("btn1-active");
+		var divs = document.querySelectorAll("#toonList div");
+		divs.forEach(div => {
+			if (div.querySelector('img').style.border.includes('green')) {
+				div.style.display = "inline-block";
+			} else {
+				div.style.display = "none";
+			}
+		});
+	});
+	//20231030 추가 카카오 버튼을 누를경우
+	document.getElementById("kakao_btn").addEventListener("click", function() {
+		selectCompany = "카카오";
+		document.querySelectorAll(".btn2").forEach(btn => btn.classList.remove("btn1-active"));
+		this.classList.add("btn1-active");
+		var divs = document.querySelectorAll("#toonList div");
+		divs.forEach(div => {
+			if (div.querySelector('img').style.border.includes('yellow')) {
+				div.style.display = "inline-block";
+			} else {
+				div.style.display = "none";
+			}
+		});
+	});
+	//20231030 추가 레진 버튼을 누를경우
+	document.getElementById("legin_btn").addEventListener("click", function() {
+		selectCompany = "레진";
+		document.querySelectorAll(".btn2").forEach(btn => btn.classList.remove("btn1-active"));
+		this.classList.add("btn1-active");
+		var divs = document.querySelectorAll("#toonList div");
+		divs.forEach(div => {
+			if (div.querySelector('img').style.border.includes('red')) {
+				div.style.display = "inline-block";
+			} else {
+				div.style.display = "none";
+			}
+		});
+	});
+	//20231030 추가 전체 버튼을 누를경우
+	document.getElementById("all_btn").addEventListener("click", function() {
+		selectCompany = "전체";
+		document.querySelectorAll(".btn2").forEach(btn => btn.classList.remove("btn1-active"));
+		this.classList.add("btn1-active");
+		var divs = document.querySelectorAll("#toonList div");
+		divs.forEach(div => {
+			div.style.display = "inline-block";
+		});
+	});
+
+	//20231013 태그 선택 기능 추가
+	document.querySelectorAll("#btn1").forEach(function(button) {
+		button.addEventListener("click", function() {
+			// 모든 버튼 active클래스 제거
+			document.querySelectorAll("#btn1").forEach(btn => btn.classList.remove("btn1-active"));
+			document.querySelector("#btn-all").classList.remove("btn1-active");
+
+			// 누른 버튼 active클레스 추가
+			this.classList.add("btn1-active");
+
+			var searchKeyword = this.textContent; // 버튼의 텍스트 내용을 가져옵니다.
+			btnClicked = true;
+			tag = searchKeyword;
+			if(selectedOption==="랜덤정렬"){
+				console.log(searchKeyword+" 태그 "+selectedOption);
+				fetch('/tagByRandom?keyword=' + searchKeyword)
+						.then(response => response.json())
+						.then(data => {
+							//console.log("data:", data);  // 객체 내용 출력
+							updateToonList(data);
+						});
+			}else if(selectedOption==="이름순정렬"){
+				console.log(searchKeyword+" 태그 "+selectedOption);
+				fetch('/tagByname?keyword=' + searchKeyword)
+						.then(response => response.json())
+						.then(data => {
+							//console.log("data:", data);  // 객체 내용 출력
+							updateToonList(data);
+						});
+			}
+			else if(selectedOption==="좋아요순정렬"){
+				console.log(searchKeyword+" 태그 "+selectedOption);
+				fetch('/tagBylikes?keyword=' + searchKeyword)
+						.then(response => response.json())
+						.then(data => {
+							//console.log("data:", data);  // 객체 내용 출력
+							updateToonList(data);
+						});
+			}
+
+		});
+	});
+
+	//20231113 버튼 로직 추가
+	document.getElementById("randomButton").addEventListener("click", function() {
+		selectedOption = "랜덤정렬";
+		if(btnClicked) {
+			console.log(tag+" 태그 "+selectedOption);
+			fetch('/tagByRandom?keyword=' + tag)
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}else if(!btnClicked) {
+			console.log("전체 " + selectedOption);
+			fetch('/selectToon')
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}
+	});
+	document.getElementById("nameButton").addEventListener("click", function() {
+		selectedOption = "이름순정렬";
+		if ( btnClicked) {
+			console.log(tag+" 태그 "+selectedOption);
+			fetch('/tagByname?keyword=' + tag)
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}else if(!btnClicked) {
+			console.log("전체 "+selectedOption);
+			fetch('/selectToonByName')
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}
+	});
+	document.getElementById("likeButton").addEventListener("click", function() {
+		selectedOption = "좋아요순정렬";
+		if(btnClicked) {
+			console.log(tag+" 태그 "+selectedOption);
+			fetch('/tagBylikes?keyword=' + tag)
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}else if(!btnClicked) {
+			console.log("전체 "+selectedOption);
+			fetch('/selectToonByLikes')
+					.then(response => response.json())
+					.then(data => {
+						//console.log("data:", data);  // 객체 내용 출력
+						updateToonList(data);
+					});
+		}
+	});
+
+
+	// 좋아요순으로 웹툰을 가져오는 함수
+	function getToonByLikes() {
+		fetch('/selectToonByLikes')
+				.then(response => response.json())
+				.then(data => {
+					updateToonList(data);
+				});
+	}
+
+	// 좋아요순으로 정렬 옵션 선택 시 이벤트 핸들러
+	document.getElementById("selectbox").addEventListener("change", function() {
+		selectedOption = this.options[this.selectedIndex].text;
+
+		if (selectedOption === "좋아요순정렬" && !btnClicked) {
+			getToonByLikes();
+		} else {
+			// 다른 정렬 옵션 선택 시 기존 로직 수행
+			// (이름순, 랜덤정렬에 대한 로직)
+			// ...
+		}
+	});
+	function updateToonList(toons) {
+		//console.log("updateToonList:", toons);
+		var toonContainer = document.getElementById("toonList");
+
+		while (toonContainer.firstChild) {
+			//console.log("firstChild!!:");
+			toonContainer.removeChild(toonContainer.firstChild);
+		}
+
+		toons.forEach(toon => {
+			const div = document.createElement('div'); // 새로운 div 컨테이너 생성
+			div.style.display = 'inline-block'; // div를 inline-block으로 설정하여 가로로 배열되게 합니다.
+
+			var p = document.createElement('p');
+			p.setAttribute('class','pcenter')
+			var img = document.createElement('img');
+			img.setAttribute('src', toon.toon_IMAGELINK);
+			img.setAttribute('onclick', "countUpdate(this)");
+			img.setAttribute('alt', toon.toon_category.replace(/"/g, ''));
+			img.setAttribute('id', toon.toon_LINK.replace(/"/g, ''));
+			img.setAttribute('width', '150px');
+			img.setAttribute('height', '200px');
+
+			var button = document.createElement('input');
+			button.setAttribute('type', 'submit');
+			button.setAttribute('value', "의견");
+			button.setAttribute('max-width', "50px");
+			button.setAttribute('class', "btn-hover color-2 padd2");
+
+			var value = document.createElement('input');
+			value.setAttribute('type', 'hidden');
+			value.setAttribute('value', toon.toon_NAME.replace(/"/g, ''));
+			value.setAttribute('name', 'reviewButton');
+
+			var form = document.createElement('form');
+			form.setAttribute('action', '/opinion')
+			form.setAttribute('class', 'widthop')
+
+			var table1 = document.createElement('table');
+
+			var table2 = document.createElement('table');
+
+			var tr1 = document.createElement('tr');
+			var tr2 = document.createElement('tr');
+
+			var td1 = document.createElement('td');
+			var td2 = document.createElement('td');
+			var td3 = document.createElement('td');
+			var td4 = document.createElement('td');
+
+			var favorite = document.createElement('input');
+			favorite.setAttribute('type', 'image');
+			favorite.setAttribute('src', "/resources/images/좋아요2.png");
+			favorite.setAttribute('onclick',"favoriteUpdate(this)");
+			favorite.setAttribute('id', toon.toon_NAME.replace(/"/g, ''));
+			favorite.setAttribute('width', '50px');
+
+			var like = document.createElement('input');
+			like.setAttribute('type', 'image');
+			like.setAttribute('src', "/resources/images/좋아요.png");
+			like.setAttribute('onclick',"likeUpdate(this)");
+			like.setAttribute('id', toon.toon_NAME.replace(/"/g, ''));
+			like.setAttribute('class', 'padd1 widthgood');
+
+			var likes = document.createElement('input');
+			likes.setAttribute('type', 'text');
+			likes.setAttribute('class', 'mol');
+			likes.setAttribute('value', toon.toon_LIKES);
+			likes.readOnly = true;
+
+			if (toon.toon_PLATFORM == "1") {
+				img.setAttribute('style', 'border: 6px solid green; margin: 10px;');
+			} else if (toon.toon_PLATFORM == "2") {
+				img.setAttribute('style', 'border: 6px solid red; margin: 10px;');
+			} else if (toon.toon_PLATFORM == "3") {
+				img.setAttribute('style', 'border: 6px solid yellow; margin: 10px;');
+			}
+
+			let toonName = toon.toon_NAME;
+			if (toonName.length > 9) {
+				toonName = toonName.substring(0, 9) + "...";
+			}
+			p.textContent = toonName;
+
+			div.appendChild(img);
+			div.appendChild(p)
+
+			table1.appendChild(tr1)
+			tr1.appendChild(td1)
+			td1.appendChild(like)
+			tr1.appendChild(td2)
+			td2.appendChild(likes)
+			table2.appendChild(tr2)
+			tr2.appendChild(td3)
+			td3.appendChild(value);
+			td3.appendChild(button);
+			tr2.appendChild(td4)
+			td4.appendChild(favorite)
+			div.appendChild(table1)
+			form.appendChild(table2)
+			div.appendChild(form)
+			toonContainer.appendChild(div)
+		});
+
+		//20231030 추가
+		if(selectCompany=="전체"){
+			var divs = document.querySelectorAll("#toonList div");
+			divs.forEach(div => {
+				div.style.display = "inline-block";
+			});
+		}else if(selectCompany=="네이버"){
+			var divs = document.querySelectorAll("#toonList div");
+			divs.forEach(div => {
+				if (div.querySelector('img').style.border.includes('green')) {
+					div.style.display = "inline-block";
+				} else {
+					div.style.display = "none";
+				}
+			});
+		}else if(selectCompany=="카카오"){
+			var divs = document.querySelectorAll("#toonList div");
+			divs.forEach(div => {
+				if (div.querySelector('img').style.border.includes('yellow')) {
+					div.style.display = "inline-block";
+				} else {
+					div.style.display = "none";
+				}
+			});
+		}else if(selectCompany=="레진"){
+			var divs = document.querySelectorAll("#toonList div");
+			divs.forEach(div => {
+				if (div.querySelector('img').style.border.includes('red')) {
+					div.style.display = "inline-block";
+				} else {
+					div.style.display = "none";
+				}
+			});
+		}else{
+
+		}
+	}
+
+
+	// 페이지 로드가 완료되면 동적으로 웹툰 리스트 생성
+	window.addEventListener('DOMContentLoaded', function() {
+		const toonContainer = document.getElementById("toonList");
+		const toonDataElements = document.querySelectorAll(".toon-data");
+
+		toonDataElements.forEach(element => {
+			const div = document.createElement('div'); // 새로운 div 컨테이너 생성
+			div.style.display = 'inline-block'; // div를 inline-block으로 설정하여 가로로 배열되게 합니다.
+
+
+			var img = document.createElement('img');
+
+			var p = document.createElement('p');
+			p.setAttribute('class','pcenter')
+			var button = document.createElement('input');
+			button.setAttribute('type', 'submit');
+			button.setAttribute('value', "의견");
+			button.setAttribute('class', "btn-hover color-2 padd2");
+
+			var value = document.createElement('input');
+			value.setAttribute('type', 'hidden');
+			value.setAttribute('value', element.getAttribute('data-name'));
+			value.setAttribute('name', 'reviewButton');
+
+			var form = document.createElement('form');
+			form.setAttribute('action', '/opinion')
+			form.setAttribute('class', 'widthop')
+
+			var table1 = document.createElement('table');
+
+			var table2 = document.createElement('table');
+
+			var tr1 = document.createElement('tr');
+			var tr2 = document.createElement('tr');
+
+			var td1 = document.createElement('td');
+			var td2 = document.createElement('td');
+			var td3 = document.createElement('td');
+			var td4 = document.createElement('td');
+
+			var favorite = document.createElement('input');
+			favorite.setAttribute('type', 'image');
+			favorite.setAttribute('src', "/resources/images/좋아요2.png");
+			favorite.setAttribute('onclick',"favoriteUpdate(this)");
+			favorite.setAttribute('id', element.getAttribute('data-name'));
+			favorite.setAttribute('width', '50px');
+
+			var like = document.createElement('input');
+			like.setAttribute('type', 'image');
+			like.setAttribute('src', "/resources/images/좋아요.png");
+			like.setAttribute('onclick',"likeUpdate(this)");
+			like.setAttribute('id', element.getAttribute('data-name'));
+			like.setAttribute('class', 'padd1 widthgood');
+
+			var likes = document.createElement('input');
+			likes.setAttribute('type', 'text');
+			likes.setAttribute('class', 'mol');
+			likes.setAttribute('value', element.getAttribute('data-like'));
+			likes.readOnly = true;
+
+			let toonName = element.getAttribute('data-name');
+			if (toonName.length > 9) {
+				toonName = toonName.substring(0, 9) + "...";
+			}
+			p.textContent = toonName;
+
+			img.setAttribute('src', element.getAttribute('data-image'));
+			img.setAttribute('onclick', "countUpdate(this)");
+			img.setAttribute('alt', element.getAttribute('data-category'));
+			img.setAttribute('id',element.getAttribute('data-link') );
+			img.setAttribute('width', '150px');
+			img.setAttribute('height', '200px');
+			if(element.getAttribute('data-platform')=='1'){
+				img.setAttribute('style', 'border: 6px solid green; margin: 3px;');
+			}else if(element.getAttribute('data-platform')=='2'){
+				img.setAttribute('style', 'border: 6px solid red; margin: 3px;');
+			}else if(element.getAttribute('data-platform')=='3'){
+				img.setAttribute('style', 'border: 6px solid yellow; margin: 3px;');
+			}
+			div.appendChild(img);
+			div.appendChild(p)
+
+			table1.appendChild(tr1)
+			tr1.appendChild(td1)
+			td1.appendChild(like)
+			tr1.appendChild(td2)
+			td2.appendChild(likes)
+			table2.appendChild(tr2)
+			tr2.appendChild(td3)
+			td3.appendChild(value);
+			td3.appendChild(button);
+			tr2.appendChild(td4)
+			td4.appendChild(favorite)
+			div.appendChild(table1)
+			form.appendChild(table2)
+			div.appendChild(form)
+			toonContainer.appendChild(div)
+		});
+	});
+
+	function favoriteUpdate(favorite)
+	{
+		const toon_name = favorite.id;
+
+		fetch(`/favorites?ToonName=${toon_name}`, {method:'GET'})
+				.then(response => response.json())
+				.then(data => {})
+				.catch(error => {console.error(error)})
+	}
+	function likeUpdate(like)
+	{
+		const toon_name = like.id;
+
+		fetch(`/likes?ToonName=${toon_name}`, {method:'GET'})
+				.then(response => response.json())
+				.then(data => {})
+				.catch(error => {console.error(error)})
+	}
+</script>
+<script src="/js/searchBTN.js"></script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+﻿
+p.btnPush .btnOrange {
+    margin-bottom: 0.5em;
+}
+a,
+a:visited {
+    text-decoration: none;
+    color: #00AE68;
+}
+
+.container {
+    padding-top: 1em;
+    margin-top: 1em;
+    border-top: solid 1px #CCC;
+}
+
+a.button {
+    display: block;
+    position: relative;
+    float: left;
+    height: 50px;
+    padding: 0;
+    margin: 10px 10px 10px 0;
+    font-weight: 600;
+    text-align: center;
+    line-height: 50px;
+    color: #FFF;
+    border-radius: 5px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+a.button_serach {
+    display: block;
+    position: relative;
+    float: left;
+    height: 50px;
+    padding: 0;
+    margin: 10px 10px 10px 0;
+    font-weight: 600;
+    text-align: center;
+    line-height: 50px;
+    color: #FFF;
+    border-radius: 5px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+    a.button.width {
+        width: 120px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        padding: 2px 0 0 5px;
+
+       
+    }
+a.button.widthhome {
+    width: 120px;
+    height: 30px;
+    position: relative;
+    right: 400px;
+    display: flex;
+    align-items: center;
+    padding: 2px 0 0 5px;
+}
+a.button.widthnick {
+    width: 90px;
+    height: 26px;
+    position: relative;
+    left: 847px;
+    top: 241px;
+    display: flex;
+    padding: 2px 0 0 5px;
+    align-items: center;
+    justify-content: center;
+}
+        a.button.widthemail {
+            width: 90px;
+            height: 26px;
+            position: relative;
+            left: 950px;
+            top: 82px;
+            display: flex;
+            padding: 2px 0 0 5px;
+            align-items: center;
+            justify-content: center;
+        }
+        a.button.widthbot {
+            width: 90px;
+         height: 26px;
+         position: relative;
+          left: 350px;
+         bottom: 1px;
+         display: flex;
+         padding: 2px 0 0 5px;
+         align-items: center;
+         justify-content: center;
+        }
+a.button.widthlog {
+    width: 200px;
+    height: 50px;
+    position: relative;
+    left: 840px;
+    top: 120px;
+    display: flex;
+    padding: 2px 0 0 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+    a.button.searchWidth {
+        padding: 0;
+        width: 150px;
+    }
+a.button.widthsid {
+    width: 90px;
+    height: 26px;
+    position: relative;
+    left: 836px;
+    top: 40px;
+    display: flex;
+    padding: 2px 0 0 5px;
+    align-items: center;
+    justify-content: center;
+}
+        a.button.widthsni {
+         width: 90px;
+         height: 26px;
+         position: relative;
+         left: 625px;
+         top: 200px;
+         display: flex;
+         padding: 2px 0 0 5px;
+         align-items: center;
+         justify-content: center;
+        }
+        a.button.widthsem {
+         width: 90px;
+         height: 26px;
+         position: relative;
+         left: 731px;
+         top: 80px;
+         display: flex;
+         padding: 2px 0 0 5px;
+         align-items: center;
+         justify-content: center;
+        }
+        a.button.widthspw {
+            width: 90px;
+            height: 26px;
+            position: relative;
+            left: 510px;
+            top: 430px;
+            display: flex;
+            padding: 2px 0 0 5px;
+            align-items: center;
+            justify-content: center;
+}
+        a.button.widthsfi {
+            width: 90px;
+            height: 26px;
+            position: relative;
+            left: 570px;
+            top: 430px;
+            display: flex;
+            padding: 2px 0 0 5px;
+            align-items: center;
+            justify-content: center;
+        }
+a.button.widthpw {
+    width: 200px;
+    height: 50px;
+    position: relative;
+    left: 840px;
+    top: 120px;
+    display: flex;
+    padding: 2px 0 0 5px;
+    align-items: center;
+    justify-content: center;
+}
+.btnOrange {
+    background: #F7691C;
+}
+
+    .btnOrange.btnPush {
+        box-shadow: 0px 5px 0px 0px #A66615;
+    }
+
+.btnPush:hover {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.btnOrange.btnPush:hover {
+    box-shadow: 0px 0px 0px 0px #A66615;
+}
+.btnceter {
+    text-align: center;
+}

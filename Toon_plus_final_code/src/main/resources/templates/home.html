@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="/css/s-btn2.css">
+</head>
+<style>
+  .cen {
+    position: absolute;
+    left: 1150px;
+  }
+</style>
+
+<body>
+<form action="signup.jsp" method="post">
+  <div style="text-align : center; height:300px; line-height:500px;">
+    <img src="/resources/images/logo.jpg" width="400px" height="150px" >
+  </div>
+  <div class="cen">
+    <a role="tab " class="button btnPush btnOrange widthhome" id="btn1" onclick="toMain();">비로그인</a>
+    <a role="tab " class="button btnPush btnOrange widthhome" id="btn1" onclick="location.href='user/signup'">회원 가입</a>  <!-- 회원 가입 버튼 클릭 시 회원 가입 페이지로 이동 -->
+    <a role="tab " class="button btnPush btnOrange widthhome" id="btn1" onclick="location.href='user/login'">로그인</a>  <!-- 회원 가입 버튼 클릭 시 회원 가입 페이지로 이동 -->
+  </div>
+</form>
+
+<script>
+  function toMain() {
+    // 이동할 URL을 생성하고 파라미터를 추가합니다.
+    var url = '/main?unlog=unloged';
+
+    // 생성한 URL로 이동합니다.
+    window.location.href = url;
+  }
+</script>
+
+</body>
+</html>
