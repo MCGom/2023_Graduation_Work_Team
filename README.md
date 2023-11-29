@@ -27,16 +27,17 @@
 * 메인 페이지(비로그인)
   <br/>비로그인 상태 메인 페이지입니다. 웹툰사별 금일 업데이트된 웹툰, 웹툰사별 신작, 자체적인 좋아요를 통해 제공되는 인기작 기능 및 태그별 웹툰 보기와 검색 기능을 이용할 수 있으며, 웹툰별 좋아요 수를 확인할 수 있습니다.
   <br/>회원 정보에 따라 제공되는 추천 기능을 이용할 수 없으며, 좋아요, 즐겨찾기, 의견 페이지를 이용할 수 없습니다.
-  <img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/f737ae33-c9bd-4c89-a00e-ae3fbf5eb1a8"><br/><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/dd4d241e-b8d5-436a-a840-30e4e5067255">
+  <img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/f737ae33-c9bd-4c89-a00e-ae3fbf5eb1a8"><br/><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/dd4d241e-b8d5-436a-a840-30e4e5067255"><br/><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/3cbca278-f911-44c9-97ea-031663c5f466"><br/><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/c90f33ca-b0c1-4907-8daa-3991a936c2bd">
 
 * 메인 페이지(로그인)
  <br/>로그인 상태 메인 페이지입니다. 비로그인 상태에서 이용 가능한 모든 기능에, 회원 정보 기반 추천, 즐겨찾기한 웹툰 및 좋아요, 즐겨찾기, 의견 페이지를 이용할 수 있습니다.
-
+<img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/629a1472-9e2a-4d87-9e59-31afa1c03093"><br/><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/878699e0-67de-406f-aeb8-3cebda3d33a5"><br/><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/27125601-a1ff-43f8-9129-d617d3290b7f">
 * 검색 페이지
  <br/>웹툰 이름으로 웹툰을 검색할 수 있으며, 웹툰을 태그별로 모아 보거나 웹툰사별로 모아 볼 수 있습니다. 검색에 용이하도록 정렬 기능 또한 제공합니다.
-
+<img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/3c0ed6f8-2853-476b-a4b0-6415d09a7899">
 * 마이 페이지
   <br/>소개글을 작성 및 수정하거나, 자신이 즐겨찾기한 웹툰을 모아 볼 수 있으며, 자신이 의견페이지에 남긴 의견 또한 모아볼 수있습니다.
-
+<img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/e6269e4c-74c4-407a-9ffe-b12263d02963">
 * 의견 페이지
  <br/>각 웹툰에 대한 의견을 남기거나 다른 사람이 남긴 의견을 통해 타인의 마이 페이지에 접속하여 다른 사람이 즐겨찾기한 웹툰이나 남긴 의견 또한 확인할 수 있습니다.
+<img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/86b38f48-41a4-4b4c-b135-8bebefc7bf07">
