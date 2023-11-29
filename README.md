@@ -9,7 +9,7 @@
 
 # 프로젝트 소개
 개발 언어
-* JavaSpring, JavaScript, Python, MySql</br>
-개발 환경
+* JavaSpring, JavaScript, Python, MySql
+</br>개발 환경
 * IntelliJ, VisualStudioCode, Windows Os, MySqlWordbench
 <br/>
