@@ -43,3 +43,4 @@
 * 우상단 메뉴바
  <br/>사이트에 접속시 모든 페이지에 존재하는 우상단 메뉴바입니다. 로그인, 비로그인 상태에 따라 메뉴 구성이 변경되며, 메뉴 구성에 맞는 기능을 이용할 수 있습니다.
   <br/><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/2d4d6a7a-e3e6-4065-bf26-2d586c62a07b"><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/350006b3-1663-42d6-abd3-8eae068e7ab6">
+  <br/>비로그인 상태                로그인 상태
