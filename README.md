@@ -33,13 +33,13 @@
 <img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/629a1472-9e2a-4d87-9e59-31afa1c03093"><br/><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/878699e0-67de-406f-aeb8-3cebda3d33a5"><br/><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/27125601-a1ff-43f8-9129-d617d3290b7f"><br/>
 * 검색 페이지
  <br/>웹툰 이름으로 웹툰을 검색할 수 있으며, 웹툰을 태그별로 모아 보거나 웹툰사별로 모아 볼 수 있습니다. 검색에 용이하도록 정렬 기능 또한 제공합니다.
-<img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/3c0ed6f8-2853-476b-a4b0-6415d09a7899">
+<img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/3c0ed6f8-2853-476b-a4b0-6415d09a7899"><br/>
 * 마이 페이지
   <br/>소개글을 작성 및 수정하거나, 자신이 즐겨찾기한 웹툰을 모아 볼 수 있으며, 자신이 의견페이지에 남긴 의견 또한 모아볼 수있습니다.
-<img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/e6269e4c-74c4-407a-9ffe-b12263d02963">
+<img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/e6269e4c-74c4-407a-9ffe-b12263d02963"><br/>
 * 의견 페이지
  <br/>각 웹툰에 대한 의견을 남기거나 다른 사람이 남긴 의견을 통해 타인의 마이 페이지에 접속하여 다른 사람이 즐겨찾기한 웹툰이나 남긴 의견 또한 확인할 수 있습니다.
-<img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/86b38f48-41a4-4b4c-b135-8bebefc7bf07">
+<img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/86b38f48-41a4-4b4c-b135-8bebefc7bf07"><br/>
 * 우상단 메뉴바
  <br/>사이트에 접속시 모든 페이지에 존재하는 우상단 메뉴바입니다. 로그인, 비로그인 상태에 따라 메뉴 구성이 변경되며, 메뉴 구성에 맞는 기능을 이용할 수 있습니다.
   <br/><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/2d4d6a7a-e3e6-4065-bf26-2d586c62a07b"><img src="https://github.com/MCGom/2023_Graduation_Work_Team/assets/100755542/350006b3-1663-42d6-abd3-8eae068e7ab6"><br/>
